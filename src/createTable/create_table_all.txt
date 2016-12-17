@@ -531,7 +531,7 @@ NOCACHE;
 
 
 INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'員工資料管理');
-INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'員工資料查詢');
+INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'會員資料管理');
 INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'私廚管理');
 INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'食譜類別管理');
 INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'檢舉管理');
