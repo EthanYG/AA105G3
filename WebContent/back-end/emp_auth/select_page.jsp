@@ -28,18 +28,18 @@
   <li><a href='listAllEmp_auth.jsp'>List</a> all Emps_auths. </li> <br><br>
   
   <li>
-    <FORM METHOD="post" ACTION="emp_auth.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp_auth/emp_auth.do" >
         <b>輸入員工編號 (如1001):</b>
         <input type="text" name="emp_no">
         <input type="submit" value="送出">
-        <input type="hidden" name="action" value="listAuths_ByEmp_no">
+        <input type="hidden" name="action" value="getAuths_byEmp_no">
     </FORM>
   </li>
 
   <jsp:useBean id="empSvc" scope="page" class="com.emp.model.EmpService" />
    
   <li>
-     <FORM METHOD="post" ACTION="emp_auth.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp_auth/emp_auth.do" >
        <b>選擇員工編號:</b>
        <select size="1" name="emp_no">
          <c:forEach var="empVO" items="${empSvc.all}" > 
@@ -47,12 +47,12 @@
          </c:forEach>   
        </select>
        <input type="submit" value="送出">
-       <input type="hidden" name="action" value="listAuths_ByEmp_no">
+       <input type="hidden" name="action" value="getAuths_byEmp_no">
     </FORM>
   </li>
   
   <li>
-     <FORM METHOD="post" ACTION="emp_auth.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp_auth/emp_auth.do" >
        <b>選擇員工姓名:</b>
        <select size="1" name="emp_no">
          <c:forEach var="empVO" items="${empSvc.all}" > 
@@ -60,7 +60,7 @@
          </c:forEach>   
        </select>
        <input type="submit" value="送出">
-       <input type="hidden" name="action" value="listAuths_ByEmp_no">
+       <input type="hidden" name="action" value="getAuths_byEmp_no">
      </FORM>
   </li>
 </ul>

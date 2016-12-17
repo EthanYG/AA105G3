@@ -30,7 +30,7 @@ public class Emp_authServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
-		if ("listAuths_ByEmp_no".equals(action) || "getOne_For_Update".equals(action)) {
+		if ("getOne_For_Update".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -42,16 +42,14 @@ public class Emp_authServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 ****************************************/
 				Emp_authService emp_authSvc = new Emp_authService();
 				List<String> list = emp_authSvc.getAuthsStringByEmp_no(emp_no);
-System.out.println(list);
+				
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("listAuths_ByEmp_no", list);    // 資料庫取出的set物件,存入request
 				
 				String url = null;
-				if("listAuths_ByEmp_no".equals(action)){
-					url = "/emp_auth/listAuths_ByEmp_no.jsp";        
-				}else if("getOne_For_Update".equals(action)){
-					url = "/emp_auth/update_emp_auth.jsp";
-				}
+				
+					url = "/back-end/emp_auth/update_emp_auth.jsp";
+				
 				
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -62,6 +60,35 @@ System.out.println(list);
 			}
 		}
 
+		if("getAuths_byEmp_no".equals(action) ){
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.接收請求參數 ****************************************/
+				String emp_no = req.getParameter("emp_no");
+
+				/*************************** 2.開始查詢資料 ****************************************/
+				Emp_authService emp_authSvc = new Emp_authService();
+				Set<Emp_authVO> set = emp_authSvc.getAuthsByEmp_no(emp_no);
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+				req.setAttribute("oneEmp_Auths_Set", set);    // 資料庫取出的set物件,存入request
+				
+				String url = null;
+				
+					url = "/back-end/emp_auth/listAuths_ByEmp_no.jsp";        
+				
+				
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 ***********************************/
+			} catch (Exception e) {
+				throw new ServletException(e);
+			}
+		}
+		
 		
 		if ("updateAuths_ByEmp_no".equals(action)) { // 來自update_emp_input.jsp的請求
 			
@@ -83,18 +110,17 @@ System.out.println(list);
 				Emp_authVO emp_authVO = new Emp_authVO();
 				Set set = new LinkedHashSet<Emp_authVO>();
 				
-				for(int i = 0;i<emp_auths.length;i++){
-					
-					emp_authVO.setEmp_no(emp_no);
-					emp_authVO.setAuth_no(emp_auths[i]);
-					set.add(emp_authVO);
-				}
 				
+				Emp_authService emp_authSvc = new Emp_authService();
+				
+				set = emp_authSvc.getAuthsByEmp_no(emp_no);
+				
+							
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("emp_auths", set);
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/emp_auth/update_emp_auth.jsp");
+							.getRequestDispatcher("/back-end/emp_auth/update_emp_auth.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -104,7 +130,7 @@ System.out.println(list);
 				
 				/***************************2.開始修改資料*****************************************/
 				
-				Emp_authService emp_authSvc = new Emp_authService();
+				
 				
 				emp_authSvc.deleteEmp_auth(emp_no);
 				
@@ -116,7 +142,7 @@ System.out.println(list);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("emp_auths", set); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/emp_auth/listOneEmp.jsp";
+				String url = "/back-end/emp_auth/listAllEmp_auth.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -124,7 +150,7 @@ System.out.println(list);
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/emp_auth/listAuths_ByEmp_no.jsp");
+						.getRequestDispatcher("/back-end/emp_auth/update_emp_auth.jsp");
 				failureView.forward(req, res);
 			}
 		}

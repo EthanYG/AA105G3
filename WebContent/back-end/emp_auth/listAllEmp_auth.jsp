@@ -7,22 +7,26 @@
 
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
-
-<jsp:useBean id="listAuths_ByEmp_no" scope="request" type="java.util.Set" />
+<%
+    EmpService empSvc = new EmpService();
+    List<EmpVO> list = empSvc.getAll();
+    pageContext.setAttribute("list",list);
+    Set<Emp_authVO> set = new LinkedHashSet<Emp_authVO>();  
+%>
 <jsp:useBean id="authSvc" scope="page" class="com.auth.model.AuthService" />
 <jsp:useBean id="emp_authSvc" scope="page" class="com.emp_auth.model.Emp_authService" />
 
 <html>
 <head>
-<title>員工權限資料 - listAllEmp.jsp</title>
+<title>所有員工權限資料 - listAllEmp.jsp</title>
 </head>
 <body bgcolor='white'>
 <b><font color=red>此頁練習採用 EL 的寫法取值:</font></b>
 <table border='1' cellpadding='5' cellspacing='0' width='800'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
-		<h3>員工權限資料 - ListAllEmp_auth.jsp</h3>
-		<a href="select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
+		<h3>所有員工權限資料 - ListAllEmp_auth.jsp</h3>
+		<a href="<%=request.getContextPath()%>/back-end/emp_auth/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
 		</td>
 	</tr>
 </table>
@@ -44,24 +48,29 @@
 		<th>擁有權限名稱</th>
 		<th>修改</th>
 	</tr>
+	<%@ include file="page1.file" %> 
+	<c:forEach var="EmpVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr align='center' valign='middle'>
-			<td>${param.emp_no}</td>
+			<td>${EmpVO.emp_no}</td>
 			<td>
-				<c:forEach var="Emp_authVO" items="${listAuths_ByEmp_no}">
-                    
+				<c:forEach var="Emp_authVO" items="${emp_authSvc.all}">
+                    <c:if test="${EmpVO.emp_no==Emp_authVO.emp_no}">
 	                    ${Emp_authVO.auth_no}【<font color=orange>${authSvc.getOneAuth(Emp_authVO.auth_no).auth_name}</font>】<br>
-                    
+                    </c:if>
                 </c:forEach>
 			</td>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp_auth/emp_auth.do">
 			     <input type="submit" value="修改">
-			     <input type="hidden" name="emp_no" value="${param.emp_no}">
+			     <input type="hidden" name="emp_no" value="${EmpVO.emp_no}">
+			     <input type="hidden" name="whichPage"	value="<%=whichPage%>">
 			     <input type="hidden" name="requestURL" vlaue="<%=request.getServletPath()%>">
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 		</tr>
+	</c:forEach>
 </table>
+<%@ include file="page2.file" %>
 
 </body>
 </html>

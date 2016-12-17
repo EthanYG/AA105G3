@@ -11,7 +11,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>員工資料 - ListOneEmp.jsp</h3>
-		<a href="select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
+		<a href="<%=request.getContextPath()%>/back-end/emp/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
 		</td>
 	</tr>
 </table>
@@ -41,7 +41,7 @@
 			<td>${empVO.emp_phone}</td>
 			<td>${empVO.emp_hiredate}</td>
 			<td>${empVO.emp_job}</td>
-			<td>${empVO.emp_status==1?"離職":"在職"}</td>
+			<td>${empVO.emp_status==1?"在職":"離職"}</td>
 	</tr>
 </table>
 

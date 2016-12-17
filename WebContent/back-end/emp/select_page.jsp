@@ -28,7 +28,7 @@
   <li><a href='listAllEmp.jsp'>List</a> all Emps. </li> <br><br>
   
   <li>
-    <FORM METHOD="post" ACTION="emp.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" >
         <b>輸入員工編號 (如1001):</b>
         <input type="text" name="emp_no">
         <input type="submit" value="送出">
@@ -39,7 +39,7 @@
   <jsp:useBean id="empSvc" scope="page" class="com.emp.model.EmpService" />
    
   <li>
-     <FORM METHOD="post" ACTION="emp.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" >
        <b>選擇員工編號:</b>
        <select size="1" name="emp_no">
          <c:forEach var="empVO" items="${empSvc.all}" > 
@@ -52,7 +52,7 @@
   </li>
   
   <li>
-     <FORM METHOD="post" ACTION="emp.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" >
        <b>選擇員工姓名:</b>
        <select size="1" name="emp_no">
          <c:forEach var="empVO" items="${empSvc.all}" > 

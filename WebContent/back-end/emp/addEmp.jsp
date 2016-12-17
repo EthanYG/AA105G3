@@ -21,7 +21,7 @@ EmpVO empVO = (EmpVO) request.getAttribute("empVO");
 		<h3>員工資料新增 - addEmp.jsp</h3>
 		</td>
 		<td>
-		   <a href="select_page.jsp"><img src="images/tomcat.gif" width="100" height="100" border="1">回首頁</a>
+		   <a href="<%=request.getContextPath()%>/back-end/emp/select_page.jsp"><img src="images/tomcat.gif" width="100" height="100" border="1">回首頁</a>
 	    </td>
 	</tr>
 </table>
@@ -38,7 +38,7 @@ EmpVO empVO = (EmpVO) request.getAttribute("empVO");
 	</font>
 </c:if>
 
-<FORM METHOD="post" ACTION="emp.do" name="form1">
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" name="form1">
 <table border="0">
 
 	<tr>

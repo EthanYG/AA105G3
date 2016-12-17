@@ -1,0 +1,1129 @@
+﻿
+
+
+
+
+
+DROP TABLE MESSAGE;
+DROP TABLE REPORT_CASE;
+drop table film_message;
+drop table film;
+drop table live;
+DROP TABLE chef_refund;
+DROP TABLE chef_order_list;
+DROP TABLE chef_schedule;
+DROP TABLE chef;
+DROP TABLE COLLECTION;
+DROP TABLE CUSTOMER_DEMAND;
+DROP TABLE ESSAY_MESSAGE;
+DROP TABLE ESSAY;
+DROP TABLE FRD_LIST;
+DROP TABLE ANN;
+DROP TABLE ADV;
+DROP TABLE emp_auth;
+DROP TABLE auth;
+DROP TABLE EMP;
+DROP TABLE PRODUCT_ORDER_LIST;
+DROP TABLE PRODUCT_ORDER;
+DROP TABLE PRODUCT;
+DROP TABLE recipe_type_info;
+DROP TABLE CHAT;
+DROP TABLE RECIPE_S_TYPE;
+DROP TABLE RECIPE_M_TYPE;
+DROP TABLE RECIPE_L_TYPE;
+DROP TABLE RECIPE_MESSAGE;
+DROP TABLE recipe_cont;
+DROP TABLE recipe;
+DROP TABLE MEMBER;
+
+
+
+DROP SEQUENCE message_seq;
+DROP SEQUENCE REPORT_case_seq;
+drop sequence film_message_seq;
+drop sequence film_seq;
+DROP SEQUENCE chef_refund_seq;
+DROP SEQUENCE chef_order_list_seq;
+DROP SEQUENCE chef_seq;
+DROP SEQUENCE COLLECTION_seq;
+DROP SEQUENCE CUSTOMER_DEMAND_seq;
+DROP SEQUENCE ESSAY_MESSAGE_seq;
+DROP SEQUENCE ESSAY_seq;
+DROP SEQUENCE ANN_SEQ;
+DROP SEQUENCE adv_seq;
+DROP SEQUENCE auth_seq;
+DROP SEQUENCE emp_seq;
+DROP SEQUENCE prod_ord_seq;
+DROP SEQUENCE prod_seq;
+DROP SEQUENCE CHAT_SEQ;
+DROP SEQUENCE recipe_seq;
+DROP SEQUENCE RECIPE_S_TYPE_SEQ;
+DROP SEQUENCE RECIPE_M_TYPE_SEQ;
+DROP SEQUENCE RECIPE_L_TYPE_SEQ;
+DROP SEQUENCE RECIPE_MSG_SEQ;
+DROP SEQUENCE mem_seq;
+
+
+建立表格: MEMBER
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE MEMBER (
+	MEM_NO					VARCHAR2(20)		NOT NULL,
+	MEM_NAME				VARCHAR2(30)		NOT NULL,
+	MEM_AC					VARCHAR2(40)		NOT NULL,
+	MEM_PW					VARCHAR2(40)		NOT NULL,
+	MEM_IMAGE				BLOB						,
+	MEM_SEX					VARCHAR2(1)			NOT NULL,
+	MEM_PHONE				VARCHAR2(20)		NOT NULL,
+	MEM_EMAIL				VARCHAR2(60)		NOT NULL,
+	MEM_ADRS				VARCHAR2(300)		NOT NULL,
+	MEM_OWN					VARCHAR2(1)			NOT NULL,
+	MEM_HISTORY			VARCHAR2(100)		,
+	MEM_ONLINE			VARCHAR2(1)			NOT NULL,
+ 
+	CONSTRAINT MEM_MEM_NO_PK PRIMARY KEY (MEM_NO));
+ 
+CREATE SEQUENCE mem_seq
+INCREMENT BY 1
+START WITH 0001
+MAXVALUE 2000
+NOCYCLE
+NOCACHE;
+
+INSERT INTO MEMBER VALUES ('M'||lpad(mem_seq.NEXTVAL,8,0), 'CAT', 'SUPERCAT2017', '123', NULL, '1', '0987654321', 'CAT@GMAIL.COM', 'CATS HOME', '0', 'F00000001', '1');
+INSERT INTO MEMBER VALUES ('M'||lpad(mem_seq.NEXTVAL,8,0), 'TIGER', 'TIGER2020', '456', NULL, '0', '0976543218', 'TIGER@YAHOO.COM.TW', 'TIGERS HOME', '0', 'F00000003', '1');
+INSERT INTO MEMBER VALUES ('M'||lpad(mem_seq.NEXTVAL,8,0), 'LION', 'FIRELION2099', '789', NULL, '1', '0965432187', 'LION@GMAIL.COM', 'LION HOME', '0', 'F00000002', '0');
+INSERT INTO MEMBER VALUES ('M'||lpad(mem_seq.NEXTVAL,8,0), 'LEOPARD', 'LEOPARD2000', '741', NULL, '1', '0954321876', 'LEOPARD@PCHOME.COM', 'LEOPARD HOME', '0', 'F00000004', '0');
+INSERT INTO MEMBER VALUES ('M'||lpad(mem_seq.NEXTVAL,8,0), 'PANTHER', 'PANTHER-V', '369', NULL, '0', '0943218765', 'PANTHER@GMAIL.COM', 'PANTHER HOME', '0', 'F00000002', '1');
+
+commit;
+
+建立表格: recipe和seq
+--------------------------------------------------------------------------------------------------------
+
+CREATE TABLE RECIPE (
+ RECIPE_NO               VARCHAR2(20) NOT NULL,
+ MEM_NO                  VARCHAR2(20) NOT NULL,
+ RECIPE_NAME		 VARCHAR2(60) NOT NULL,
+ RECIPE_INTRO		 CLOB NOT NULL,
+ FOOD_MATER		 VARCHAR2(600) NOT NULL,
+ RECIPE_PIC		 BLOB,
+ RECIPE_LIKE		 NUMBER(10) DEFAULT 0,
+ RECIPE_TOTAL_VIEWS	 NUMBER(10) DEFAULT 0,
+ RECIPE_WEEK_VIEWS	 NUMBER(10) DEFAULT 0,
+ RECIPE_TIME		 DATE default sysdate NOT NULL,
+ 
+
+ 
+ CONSTRAINT recipe_mem_no_FK FOREIGN KEY (mem_no) REFERENCES MEMBER (mem_no),
+ CONSTRAINT REICPE_RECIPE_NO_PK PRIMARY KEY (RECIPE_NO));
+
+CREATE SEQUENCE recipe_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+INSERT INTO recipe (recipe_no,mem_no,recipe_name,recipe_intro,FOOD_MATER,RECIPE_LIKE,RECIPE_TOTAL_VIEWS,RECIPE_WEEK_VIEWS,RECIPE_TIME) 
+VALUES ('R'||lpad(recipe_seq.NEXTVAL,8,0),'M00000001','馬鈴薯燉肉','日式家常菜馬鈴薯燉肉，真的是一道非常簡單的燉菜！','梅花肉-600公克+洋蔥-1/2個',100,2333,400,TO_DATE('2015-04-26 18:30','YYYY-MM-DD HH24:mi'));
+INSERT INTO recipe (recipe_no,mem_no,recipe_name,recipe_intro,FOOD_MATER,RECIPE_LIKE,RECIPE_TOTAL_VIEWS,RECIPE_WEEK_VIEWS,RECIPE_TIME) 
+VALUES ('R'||lpad(recipe_seq.NEXTVAL,8,0),'M00000002','蘿蔔燒雞','白蘿蔔清甜, 俗語說“冬吃蘿蔔夏吃薑，不用醫生開藥方”。現在正值產季, 和雞肉一起紅燒, 份量十足, 味道棒極了!','雞肉-800g+白蘿蔔 (大)-1條',60,1222,300,TO_DATE('2016-09-14 13:23','YYYY-MM-DD HH24:mi'));
+INSERT INTO recipe (recipe_no,mem_no,recipe_name,recipe_intro,FOOD_MATER,RECIPE_LIKE,RECIPE_TOTAL_VIEWS,RECIPE_WEEK_VIEWS,RECIPE_TIME) 
+VALUES ('R'||lpad(recipe_seq.NEXTVAL,8,0),'M00000002','海鮮蕃茄義大利麵','採蕃茄、吃蕃茄；採得開心、吃得過癮。','蕃茄-適量+起士粉-少許',46,1300,200,TO_DATE('2016-10-14 20:11','YYYY-MM-DD HH24:mi'));
+INSERT INTO recipe (recipe_no,mem_no,recipe_name,recipe_intro,FOOD_MATER,RECIPE_LIKE,RECIPE_TOTAL_VIEWS,RECIPE_WEEK_VIEWS,RECIPE_TIME) 
+VALUES ('R'||lpad(recipe_seq.NEXTVAL,8,0),'M00000003','膠質滿滿！燉蔬菜牛尾湯。','蔬菜牛尾湯是我非常喜愛的冬日暖湯，裡面滿滿蔬菜熬出清甜，花時間燉煮的牛尾風味濃郁、肉質軟嫩，輕拉就馬上與骨頭分開，主要營養之一的膠質，在慢火燒煮下溶入整鍋湯裡，喝著熱湯也喝下滋養，嘴角感覺的到黏黏膠質！','牛尾-1公斤+麵粉-少許',333,4532,2222,TO_DATE('2016-10-15 07:50','YYYY-MM-DD HH24:mi'));
+INSERT INTO recipe (recipe_no,mem_no,recipe_name,recipe_intro,FOOD_MATER,RECIPE_LIKE,RECIPE_TOTAL_VIEWS,RECIPE_WEEK_VIEWS,RECIPE_TIME) 
+VALUES ('R'||lpad(recipe_seq.NEXTVAL,8,0),'M00000004','皮蛋瘦肉粥','屋內又飄漫著熬高湯的香氣，用這香噴噴的湯底將米飯煨煮到軟爛，再加入碎皮蛋與瘦肉，滿滿地營養與用心，讓你吃飽又吃巧，可說比買的還美味唷! ','白飯-1碗+皮蛋-1顆',50,1688,396,TO_DATE('2016-10-25 14:25','YYYY-MM-DD HH24:mi'));
+
+commit;
+------------------------------------------------------------------------
+
+建立表格: recipe_cont
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE RECIPE_CONT (
+ RECIPE_NO               VARCHAR2(20) NOT NULL,
+ STEP           	 NUMBER(2) NOT NULL,
+ STEP_PIC		 BLOB,
+ STEP_CONT		 CLOB NOT NULL,
+ 
+
+ CONSTRAINT recipe_cont_recipe_no_step_PK PRIMARY KEY (RECIPE_NO,STEP),
+ CONSTRAINT recipe_cont_recipe_no_FK FOREIGN KEY (RECIPE_NO) REFERENCES RECIPE (RECIPE_NO)
+
+
+);
+
+insert into recipe_cont values ('R00000001',1,null,'洋蔥洗淨後去皮，切成半月形片狀；紅蘿蔔去皮後切滾刀塊；梅花肉切塊後用少許米酒略為去腥一下。');
+insert into recipe_cont values ('R00000001',2,null,'馬鈴薯去皮切滾刀塊之後泡在水中防止氧化變色。');
+insert into recipe_cont values ('R00000001',3,null,'鑄鐵鍋中放少許油，油微熱後放入洋蔥炒過。');
+insert into recipe_cont values ('R00000001',4,null,'將洋蔥撥到一邊，空出來的地方放入肉塊，讓兩面煎熟。');
+insert into recipe_cont values ('R00000001',5,null,'放入紅蘿蔔翻炒一下，再加入醬汁中所有的材料，翻動一下讓醬汁均勻，蓋上鍋蓋煮約10分鐘。');
+
+insert into recipe_cont values ('R00000002',1,null,'白蘿蔔切塊; 雞肉(雞胸久煮易乾柴, 不適紅燒,其它部位都可以)切塊; 香菇泡水泡軟');
+insert into recipe_cont values ('R00000002',2,null,'取一炒鍋, 加入2大匙油、雞肉、老薑片中火煎至雞肉由紅轉白 (因為蘿蔔較吃油, 所以煎過雞肉的油就不倒出留在鍋內了, 不喜歡太油的朋友可以將多餘的油倒出另做它用)');
+insert into recipe_cont values ('R00000002',3,null,'加入調味料大火煮滾');
+insert into recipe_cont values ('R00000002',4,null,'蓋上鍋蓋文火悶煮40分, 擺入香菜(增色可省略)即完成');
+
+commit;
+
+-------------------------------------------------------------------------------------------------------
+
+建立食譜留言
+------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE RECIPE_MESSAGE(
+	RECIPE_MSG_NO 	VARCHAR2(20) NOT NULL,
+	MEM_NO					VARCHAR2(20) NOT NULL,
+	RECIPE_NO				VARCHAR2(20) NOT NULL,
+	MSG_CONT				VARCHAR2(600),
+	RECIPE_MSG_REF	VARCHAR2(20),
+	MSG_TIME				DATE DEFAULT SYSDATE NOT NULL,
+	
+	CONSTRAINT RECIPE_MSG_PK PRIMARY KEY (RECIPE_MSG_NO),
+	CONSTRAINT RECIPE_MSG_REF_FK FOREIGN KEY (RECIPE_MSG_REF) REFERENCES RECIPE_MESSAGE(RECIPE_MSG_NO)
+  );
+
+	
+CREATE SEQUENCE RECIPE_MSG_SEQ
+	INCREMENT BY 1
+	START WITH 1
+	NOMAXVALUE
+	NOCYCLE
+	NOCACHE;
+
+INSERT INTO RECIPE_MESSAGE VALUES ('RMN'||recipe_msg_seq.NEXTVAL,'M00000001','R00000001','好吃1','',TO_DATE('2016-11-01 08:30','YYYY-MM-DD HH24:mi'));
+INSERT INTO RECIPE_MESSAGE VALUES ('RMN'||recipe_msg_seq.NEXTVAL,'M00000002','R00000002','好吃2','RMN1',TO_DATE('2016-11-02 09:30','YYYY-MM-DD HH24:mi'));
+INSERT INTO RECIPE_MESSAGE VALUES ('RMN'||recipe_msg_seq.NEXTVAL,'M00000003','R00000003','普通3','',TO_DATE('2016-11-03 10:30','YYYY-MM-DD HH24:mi'));
+INSERT INTO RECIPE_MESSAGE VALUES ('RMN'||recipe_msg_seq.NEXTVAL,'M00000004','R00000004','還好4','',TO_DATE('2016-11-04 11:30','YYYY-MM-DD HH24:mi'));
+INSERT INTO RECIPE_MESSAGE VALUES ('RMN'||recipe_msg_seq.NEXTVAL,'M00000005','R00000005','好吃5','RMN2',TO_DATE('2016-11-05 12:30','YYYY-MM-DD HH24:mi'));
+
+COMMIT;
+
+------------------------------------------------------------------------------------------------------------------
+
+食譜大類別
+--------------------------------------------------------------------------------------------------
+
+
+
+CREATE TABLE RECIPE_L_TYPE(
+	RECIPE_L_TYPE_NO VARCHAR2(20) NOT NULL,
+	L_TYPE_NAME 		 VARCHAR2(60) NOT NULL,
+	
+
+	CONSTRAINT RECIPE_L_TYPE_NO_PK PRIMARY KEY (RECIPE_L_TYPE_NO));
+
+CREATE SEQUENCE RECIPE_L_TYPE_SEQ
+	INCREMENT BY 1
+	START WITH 1
+	NOMAXVALUE
+	NOCYCLE
+	NOCACHE;
+
+INSERT INTO RECIPE_L_TYPE VALUES ('RL'||LPAD(RECIPE_L_TYPE_SEQ.NEXTVAL,4,0),'家常菜');
+INSERT INTO RECIPE_L_TYPE VALUES ('RL'||LPAD(RECIPE_L_TYPE_SEQ.NEXTVAL,4,0),'異國料理');
+INSERT INTO RECIPE_L_TYPE VALUES ('RL'||LPAD(RECIPE_L_TYPE_SEQ.NEXTVAL,4,0),'烘培點心');
+INSERT INTO RECIPE_L_TYPE VALUES ('RL'||LPAD(RECIPE_L_TYPE_SEQ.NEXTVAL,4,0),'醬料');
+INSERT INTO RECIPE_L_TYPE VALUES ('RL'||LPAD(RECIPE_L_TYPE_SEQ.NEXTVAL,4,0),'季節節慶');
+INSERT INTO RECIPE_L_TYPE VALUES ('RL'||LPAD(RECIPE_L_TYPE_SEQ.NEXTVAL,4,0),'食材');
+
+COMMIT;
+
+--------------------------------------------------------------------------------------------------
+
+
+食譜中類別
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+CREATE TABLE RECIPE_M_TYPE(
+	RECIPE_M_TYPE_NO VARCHAR2(20) NOT NULL,
+	M_TYPE_NAME 		 VARCHAR2(60) NOT NULL,
+	PARENT_TYPE 		 VARCHAR2(20) NOT NULL,
+
+	CONSTRAINT RECIPE_M_TYPE_NO_PK PRIMARY KEY (RECIPE_M_TYPE_NO),
+	CONSTRAINT RECIPE_M_TYPE_PARENT_TYPE_FK FOREIGN KEY (PARENT_TYPE) REFERENCES RECIPE_L_TYPE (RECIPE_L_TYPE_NO));
+	
+CREATE SEQUENCE RECIPE_M_TYPE_SEQ
+	INCREMENT BY 1
+	START WITH 1
+	NOMAXVALUE
+	NOCYCLE
+	NOCACHE;	
+
+
+INSERT INTO RECIPE_M_TYPE VALUES ('RM'||LPAD(RECIPE_M_TYPE_SEQ.NEXTVAL,4,0),'涼拌','RL0001');
+INSERT INTO RECIPE_M_TYPE VALUES ('RM'||LPAD(RECIPE_M_TYPE_SEQ.NEXTVAL,4,0),'沙拉','RL0001');
+INSERT INTO RECIPE_M_TYPE VALUES ('RM'||LPAD(RECIPE_M_TYPE_SEQ.NEXTVAL,4,0),'日式','RL0002');
+INSERT INTO RECIPE_M_TYPE VALUES ('RM'||LPAD(RECIPE_M_TYPE_SEQ.NEXTVAL,4,0),'泰式','RL0002');
+INSERT INTO RECIPE_M_TYPE VALUES ('RM'||LPAD(RECIPE_M_TYPE_SEQ.NEXTVAL,4,0),'甜湯','RL0003');
+INSERT INTO RECIPE_M_TYPE VALUES ('RM'||LPAD(RECIPE_M_TYPE_SEQ.NEXTVAL,4,0),'雞肉','RL0006');
+INSERT INTO RECIPE_M_TYPE VALUES ('RM'||LPAD(RECIPE_M_TYPE_SEQ.NEXTVAL,4,0),'豬肉','RL0006');
+INSERT INTO RECIPE_M_TYPE VALUES ('RM'||LPAD(RECIPE_M_TYPE_SEQ.NEXTVAL,4,0),'麵食','RL0006');
+
+COMMIT;
+
+-----------------------------
+
+
+食譜小類別
+------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE RECIPE_S_TYPE(
+	RECIPE_S_TYPE_NO VARCHAR2(20) NOT NULL,
+	S_TYPE_NAME 		 VARCHAR2(60) NOT NULL,
+	PARENT_TYPE 		 VARCHAR2(20) NOT NULL,
+
+	CONSTRAINT RECIPE_S_TYPE_NO_PK PRIMARY KEY (RECIPE_S_TYPE_NO),
+	CONSTRAINT RECIPE_S_TYPE_PARENT_TYPE_FK FOREIGN KEY (PARENT_TYPE) REFERENCES RECIPE_M_TYPE (RECIPE_M_TYPE_NO));
+	
+CREATE SEQUENCE RECIPE_S_TYPE_SEQ
+	INCREMENT BY 1
+	START WITH 1
+	NOMAXVALUE
+	NOCYCLE
+	NOCACHE;	
+
+INSERT INTO RECIPE_S_TYPE VALUES ('RS'||LPAD(RECIPE_S_TYPE_SEQ.NEXTVAL,4,0),'雞腿肉','RM0006');
+INSERT INTO RECIPE_S_TYPE VALUES ('RS'||LPAD(RECIPE_S_TYPE_SEQ.NEXTVAL,4,0),'雞胸肉','RM0006');
+INSERT INTO RECIPE_S_TYPE VALUES ('RS'||LPAD(RECIPE_S_TYPE_SEQ.NEXTVAL,4,0),'豬肚','RM0007');
+INSERT INTO RECIPE_S_TYPE VALUES ('RS'||LPAD(RECIPE_S_TYPE_SEQ.NEXTVAL,4,0),'豬腳','RM0007');
+INSERT INTO RECIPE_S_TYPE VALUES ('RS'||LPAD(RECIPE_S_TYPE_SEQ.NEXTVAL,4,0),'豬肚','RM0008');
+INSERT INTO RECIPE_S_TYPE VALUES ('RS'||LPAD(RECIPE_S_TYPE_SEQ.NEXTVAL,4,0),'義大利麵','RM0008');
+
+COMMIT;
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+建立chat
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+CREATE TABLE CHAT(
+	CHAT_NO 		VARCHAR2(20) NOT NULL,
+	SEND_NO			VARCHAR2(20) NOT NULL,
+	GET_NO			VARCHAR2(20) NOT NULL,
+	CHAT_TEXT		VARCHAR2(300),
+	CHAT_DATE		Timestamp DEFAULT SYSDATE NOT NULL,
+
+	CONSTRAINT send_no_FK FOREIGN KEY (send_no) REFERENCES MEMBER (mem_no),
+	CONSTRAINT get_no_FK FOREIGN KEY (get_no) REFERENCES MEMBER (mem_no),
+	CONSTRAINT CHAT_NO_PK PRIMARY KEY (CHAT_NO)
+	);
+
+
+CREATE SEQUENCE CHAT_SEQ
+	INCREMENT BY 1
+	START WITH 1
+	NOMAXVALUE
+	NOCYCLE
+	NOCACHE;
+
+INSERT INTO CHAT VALUES ('CTN'||CHAT_SEQ.NEXTVAL,'M00000001','M00000002','Hello~2',TO_DATE('2016-11-01 08:30','YYYY-MM-DD HH24:mi'));
+INSERT INTO CHAT VALUES ('CTN'||CHAT_SEQ.NEXTVAL,'M00000001','M00000003','Hello~3',TO_DATE('2016-11-01 08:31','YYYY-MM-DD HH24:mi'));
+INSERT INTO CHAT VALUES ('CTN'||CHAT_SEQ.NEXTVAL,'M00000001','M00000004','Hello~4',TO_DATE('2016-11-01 08:32','YYYY-MM-DD HH24:mi'));
+INSERT INTO CHAT VALUES ('CTN'||CHAT_SEQ.NEXTVAL,'M00000001','M00000005','Hello~5',TO_DATE('2016-11-01 08:33','YYYY-MM-DD HH24:mi'));
+INSERT INTO CHAT VALUES ('CTN'||CHAT_SEQ.NEXTVAL,'M00000001','M00000001','Hello~6',TO_DATE('2016-11-01 08:34','YYYY-MM-DD HH24:mi'));
+
+COMMIT;
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+
+建立表格: recipe_type_info
+--------------------------------------------------------------------------------------------------------
+
+
+
+CREATE TABLE RECIPE_TYPE_INFO (
+ RECIPE_NO               VARCHAR2(20) NOT NULL,
+ RECIPE_TYPE_NO          VARCHAR2(20),
+ TYPE_RANGE 		 VARCHAR2(1),
+ 
+CONSTRAINT reci_t_info_reci_no_t_no_PK PRIMARY KEY (RECIPE_NO,RECIPE_TYPE_NO),
+ CONSTRAINT reci_t_info_RECI_NO_FK FOREIGN KEY (RECIPE_NO) REFERENCES RECIPE (RECIPE_NO)
+
+);
+
+
+INSERT INTO recipe_type_info VALUES ('R00000001','RS0001','2');
+INSERT INTO recipe_type_info VALUES ('R00000001','MS0001','1');
+INSERT INTO recipe_type_info VALUES ('R00000001','MS0003','1');
+INSERT INTO recipe_type_info VALUES ('R00000002','RS0002','2');
+INSERT INTO recipe_type_info VALUES ('R00000002','RS0005','2');
+
+commit;
+
+--------------------------------------------------------------
+
+建立表格: PROD
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE PRODUCT (
+	PROD_NO						VARCHAR2(20)		NOT NULL,
+	PROD_NAME					VARCHAR2(100)		NOT NULL,
+	PROD_TYPE					VARCHAR2(40)		NOT NULL,
+	SALES_VOLUME			NUMBER					NOT NULL,
+	STOR_CAPACITY			NUMBER					NOT NULL,
+	UNIT_PRICE				NUMBER					NOT NULL,
+	PROD_DESCRIPTION	VARCHAR2(600)		,
+	PROD_STATUS				VARCHAR2(1)			NOT NULL,
+	DISC_STATUS				VARCHAR2(1)			NOT NULL,
+	SELL_STATUS				VARCHAR2(1)			NOT NULL,
+	PROD_PICTURE			BLOB						,
+	SHELF_DATE				DATE						NOT NULL,
+	REMOVE_DATE				DATE						NOT NULL,
+	DISC_PRICE				NUMBER					,
+	DISC_START_DATE		DATE						,
+	DISC_END_DATE			DATE						,
+ 
+	CONSTRAINT PROD_PROD_NO_PK PRIMARY KEY (PROD_NO));
+ 
+CREATE SEQUENCE prod_seq
+INCREMENT BY 1
+START WITH 0001
+MAXVALUE 2000
+NOCYCLE
+NOCACHE;
+
+INSERT INTO PRODUCT VALUES (prod_seq.NEXTVAL, 'RICE', 'SPACE BAG', 100, 50, 300, 'THIS IS A RICE', '1', '1', '0', NULL, TO_DATE('2016-01-01','YYYY-MM-DD'), TO_DATE('2016-12-31','YYYY-MM-DD'), 200, TO_DATE('2016-02-01','YYYY-MM-DD'), TO_DATE('2016-05-31','YYYY-MM-DD'));
+INSERT INTO PRODUCT VALUES (prod_seq.NEXTVAL, 'MEAT', 'SPACE BAG', 50, 30, 180, 'THIS IS A MEAT', '1', '0', '1', NULL, TO_DATE('2016-02-01','YYYY-MM-DD'), TO_DATE('2017-12-31','YYYY-MM-DD'), 160, TO_DATE('2016-06-01','YYYY-MM-DD'), TO_DATE('2016-08-31','YYYY-MM-DD'));
+INSERT INTO PRODUCT VALUES (prod_seq.NEXTVAL, 'SOUP', 'SPACE BAG', 200, 80, 30, 'THIS IS A SOUP', '1', '1', '1', NULL, TO_DATE('2015-01-01','YYYY-MM-DD'), TO_DATE('2016-12-31','YYYY-MM-DD'), 15, TO_DATE('2016-01-01','YYYY-MM-DD'), TO_DATE('2016-10-31','YYYY-MM-DD'));
+INSERT INTO PRODUCT VALUES (prod_seq.NEXTVAL, 'KNIFE', 'TABLEWARE', 30, 10, 200, 'THIS IS A KNIFE', '1', '0', '1', NULL, TO_DATE('2014-01-01','YYYY-MM-DD'), TO_DATE('2020-12-31','YYYY-MM-DD'), 150, TO_DATE('2016-01-01','YYYY-MM-DD'), TO_DATE('2017-12-31','YYYY-MM-DD'));
+INSERT INTO PRODUCT VALUES (prod_seq.NEXTVAL, 'NOODLE', 'SPACE BAG', 100, 80, 50, 'THIS IS A NOODLE', '0', '1', '1', NULL, TO_DATE('2015-01-01','YYYY-MM-DD'), TO_DATE('2017-12-31','YYYY-MM-DD'), 20, TO_DATE('2016-03-01','YYYY-MM-DD'), TO_DATE('2016-04-30','YYYY-MM-DD'));
+
+commit;
+---------------------------------------------------------------------------------
+
+建立表格: PROD_ORD
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE PRODUCT_ORDER (
+	PROD_ORD_NO			VARCHAR2(20)		NOT NULL,
+	MEM_NO					VARCHAR2(20)		NOT NULL,
+	PROD_ORD_TIME		DATE						NOT NULL,
+	CRED_CARD_NO		VARCHAR2(16)		NOT NULL,
+	VALID_DATE			DATE						NOT NULL,
+	VALID_NO				VARCHAR2(3)			NOT NULL,
+	CRED_CARD_TYPE	VARCHAR2(6)			NOT NULL,
+	TOTAL_MONEY			NUMBER					NOT NULL,
+	SHIP_NAME				VARCHAR2(90)		NOT NULL,
+	POST_CODE				VARCHAR2(5)			NOT NULL,
+	MEM_ADRS				VARCHAR2(300)		NOT NULL,
+	CELL_PHONE			VARCHAR2(20)		NOT NULL,
+	TEL_PHONE				VARCHAR2(20)		NOT NULL,
+	
+	CONSTRAINT PROD_ORD_MEM_NO_FK FOREIGN KEY (MEM_NO) REFERENCES MEMBER (MEM_NO),
+	CONSTRAINT PROD_ORD_PROD_ORD_NO_PK PRIMARY KEY (PROD_ORD_NO));
+ 
+CREATE SEQUENCE prod_ord_seq
+INCREMENT BY 1
+START WITH 0001
+MAXVALUE 2000
+NOCYCLE
+NOCACHE;
+
+INSERT INTO PRODUCT_ORDER VALUES ('20160630'||'-'||lpad(prod_ord_seq.NEXTVAL,8,0), 'M00000001', TO_DATE('2016-06-30','YYYY-MM-DD'), 'A1B2C3D4E5F6G7H8', TO_DATE('12/20','MM/YY'), '555', '0', 10000, 'CAT', '32011', 'HERE', '0987654321', '03-4567891');
+INSERT INTO PRODUCT_ORDER VALUES ('20160820'||'-'||lpad(prod_ord_seq.NEXTVAL,8,0), 'M00000001', TO_DATE('2015-08-20','YYYY-MM-DD'), 'I1J2K3L4M5N6O7P8', TO_DATE('12/19','MM/YY'), '269', '1', 50000, 'TIGER', '33022', 'THERE', '0912345678', '02-3456789');
+INSERT INTO PRODUCT_ORDER VALUES ('20160915'||'-'||lpad(prod_ord_seq.NEXTVAL,8,0), 'M00000002', TO_DATE('2016-09-15','YYYY-MM-DD'), 'Q1R2S3T4U5V6W7X8', TO_DATE('12/21','MM/YY'), '584', '0', 3000, 'LION', '34033', 'OVER THERE', '0924681357', '04-5678912');
+INSERT INTO PRODUCT_ORDER VALUES ('20161010'||'-'||lpad(prod_ord_seq.NEXTVAL,8,0), 'M00000003', TO_DATE('2016-10-10','YYYY-MM-DD'), 'A9B8C7D6E5F4G3H2', TO_DATE('12/22','MM/YY'), '666', '1', 9900, 'LEOPARD', '35044', 'OVER HERE', '0913579246', '05-6789123');
+INSERT INTO PRODUCT_ORDER VALUES ('20161225'||'-'||lpad(prod_ord_seq.NEXTVAL,8,0), 'M00000004', TO_DATE('2016-12-25','YYYY-MM-DD'), 'A1B3C5D7E9F2G4H6', TO_DATE('12/23','MM/YY'), '321', '2', 81000, 'PANTHER', '36055', 'I DONT KNOWN', '0988776655', '06-7891234');
+
+commit;
+
+----------------------------------------------------------------------------------------
+
+建立表格: PROD_ORD_LIST
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE PRODUCT_ORDER_LIST (
+	PROD_ORD_NO				VARCHAR2(20)		NOT NULL,
+	PROD_NO						VARCHAR2(20)		NOT NULL,
+	UNIT_PRICE				NUMBER					NOT NULL,
+	PROD_QUANTITY			NUMBER					NOT NULL,
+	DELI_STATUS				VARCHAR2(1)			NOT NULL,
+	DELI_TIME					DATE						NOT NULL,
+ 
+	CONSTRAINT P_O_L_PROD_ORD_NO_FK FOREIGN KEY (PROD_ORD_NO) REFERENCES PRODUCT_ORDER (PROD_ORD_NO),
+ 	CONSTRAINT P_O_L_PROD_NO_FK FOREIGN KEY (PROD_NO) REFERENCES PRODUCT (PROD_NO),
+ 	CONSTRAINT P_O_L_PROD_ORD_NO_PROD_NO_PK PRIMARY KEY (PROD_ORD_NO, PROD_NO));
+
+INSERT INTO PRODUCT_ORDER_LIST VALUES ('20160630-00000001', '5', 50, 10, '2', TO_DATE('2016-07-05','YYYY-MM-DD'));
+INSERT INTO PRODUCT_ORDER_LIST VALUES ('20160820-00000002', '4', 200, 2, '0', TO_DATE('2016-08-23','YYYY-MM-DD'));
+INSERT INTO PRODUCT_ORDER_LIST VALUES ('20160915-00000003', '3', 30, 20, '2', TO_DATE('2016-09-18','YYYY-MM-DD'));
+INSERT INTO PRODUCT_ORDER_LIST VALUES ('20161010-00000004', '2', 180, 5, '1', TO_DATE('2016-10-13','YYYY-MM-DD'));
+INSERT INTO PRODUCT_ORDER_LIST VALUES ('20161225-00000005', '1', 30, 12, '1', TO_DATE('2016-12-27','YYYY-MM-DD'));
+
+commit;
+-----------------------------------------
+
+
+建立表格: EMP和seq
+--------------------------------------------------------------------------------------------------------
+
+
+
+CREATE TABLE EMP (
+ EMP_NO               VARCHAR2(20) NOT NULL,
+ EMP_NAME             VARCHAR2(20) Not Null,
+ EMP_ACCOUNT          VARCHAR2(20) Not Null,
+ EMP_PASSWORD         VARCHAR2(20) Not Null,
+ EMP_ID		      VARCHAR2(12) Not Null,
+ EMP_EMAIL	      VARCHAR2(40) Not Null,
+ EMP_ADDRESS	      VARCHAR2(300) Not Null,
+ EMP_PHONE	      VARCHAR2(20) Not Null,
+ EMP_HIREDATE	      DATE Not Null,
+ EMP_JOB	      VARCHAR2(60) Not Null,
+ EMP_STATUS	      VARCHAR2(1) DEFAULT '1' Not Null,
+
+ CONSTRAINT EMP_EMP_NO_PK PRIMARY KEY (EMP_NO),
+ CONSTRAINT EMP_EMP_ACC_UK UNIQUE(EMP_ACCOUNT),
+ CONSTRAINT EMP_EMP_ID_UK UNIQUE(EMP_ID),
+ CONSTRAINT EMP_EMP_EMAIL_UK UNIQUE(EMP_EMAIL));
+ 
+CREATE SEQUENCE emp_seq
+INCREMENT BY 1
+START WITH 1001
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+INSERT INTO EMP VALUES (emp_seq.NEXTVAL,'員工1號','test01','psw01','A123456789','test01@gmail.com','地球台灣','0988-11111',TO_DATE('2016-11-26','YYYY-MM-DD'),'網頁管理員','1');
+INSERT INTO EMP VALUES (emp_seq.NEXTVAL,'員工2號','test02','psw02','B123456789','test02@gmail.com','地球台灣','0988222222',TO_DATE('2016-08-11','YYYY-MM-DD'),'網頁管理員','1');
+INSERT INTO EMP VALUES (emp_seq.NEXTVAL,'員工3號','test03','psw03','C123456789','test03@gmail.com','地球台灣','0988333333',TO_DATE('2016-04-02','YYYY-MM-DD'),'系統管理員','1');
+INSERT INTO EMP VALUES (emp_seq.NEXTVAL,'主管1號','test04','psw04','D123456789','test04@gmail.com','地球台灣','0988444444',TO_DATE('2015-05-26','YYYY-MM-DD'),'主管','1');
+INSERT INTO EMP VALUES (emp_seq.NEXTVAL,'老闆','test05','psw05','E123456789','test05@gmail.com','地球台灣','0988-555555',TO_DATE('2015-05-13','YYYY-MM-DD'),'老闆','1');
+
+
+commit;
+--------------------------------------------------------------------------------------------------------
+
+
+建立表格: auth和seq
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE AUTH (
+ AUTH_NO               VARCHAR2(4) NOT NULL,
+ AUTH_NAME             VARCHAR2(50) NOT NULL,
+ 
+
+ CONSTRAINT AUTH_AUTH_NO_PK PRIMARY KEY (AUTH_NO));
+
+CREATE SEQUENCE auth_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+
+INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'員工資料管理');
+INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'員工資料查詢');
+INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'私廚管理');
+INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'食譜類別管理');
+INSERT INTO AUTH VALUES (lpad(auth_seq.NEXTVAL,3,0),'檢舉管理');
+
+commit;
+---------------------------------------
+
+建立表格: emp_auth
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE EMP_AUTH (
+ EMP_NO               VARCHAR2(20) NOT NULL,
+ AUTH_NO           VARCHAR2(4) NOT NULL,
+ 
+
+ CONSTRAINT emp_auth_emp_no_auth_no_PK PRIMARY KEY (EMP_NO,AUTH_NO),
+ CONSTRAINT emp_auth_EMP_NO_FK FOREIGN KEY (EMP_NO) REFERENCES EMP (EMP_NO),
+ CONSTRAINT emp_auth_AUTH_NO_FK FOREIGN KEY (AUTH_NO) REFERENCES AUTH (AUTH_NO)
+
+);
+
+INSERT INTO emp_auth VALUES ('1001','001');
+INSERT INTO emp_auth VALUES ('1001','002');
+INSERT INTO emp_auth VALUES ('1002','001');
+INSERT INTO emp_auth VALUES ('1002','003');
+INSERT INTO emp_auth VALUES ('1003','004');
+
+commit;
+
+---------------------------------------
+
+建立表格: ADV
+--------------------------------------------------------------------------------------------------------
+
+CREATE TABLE ADV (
+	ADV_NO						VARCHAR2(20)		NOT NULL,
+	EMP_NO						VARCHAR2(20)		NOT NULL,
+	ADV_NAME					VARCHAR2(20)		NOT NULL,
+	ADV_IMAGE_NAME		VARCHAR2(40)		,
+	ADV_IMAGE					BLOB						,
+	ADV_URL						VARCHAR2(200)		,
+ 
+ 	CONSTRAINT ADV_EMP_NO_FK FOREIGN KEY (EMP_NO) REFERENCES EMP (EMP_NO),
+	CONSTRAINT ADV_ADV_NO_PK PRIMARY KEY (ADV_NO));
+ 
+CREATE SEQUENCE ADV_seq
+INCREMENT BY 1
+START WITH 0001
+MAXVALUE 2000
+NOCYCLE
+NOCACHE;
+
+INSERT INTO ADV VALUES (adv_seq.NEXTVAL, '1001', '新品上架', '新的太空包的圖', NULL, 'WWW.YAHOO.COM.TW');
+INSERT INTO ADV VALUES (adv_seq.NEXTVAL, '1002', '特價消息', '新的特價的圖', NULL, 'WWW.GOOGLE.COM');
+INSERT INTO ADV VALUES (adv_seq.NEXTVAL, '1003', '新品上架', '新的太空包的圖', NULL, 'WWW.SHOPPING.PCHOME.COM.TW');
+INSERT INTO ADV VALUES (adv_seq.NEXTVAL, '1002', '優惠活動', '新的活動的圖', NULL, 'WWW.FACEBOOK.COM');
+INSERT INTO ADV VALUES (adv_seq.NEXTVAL, '1001', '新品上架', '新的太空包的圖', NULL, 'WWW.TWITTER.COM');
+
+commit;
+
+-----------------------------
+
+CREATE TABLE ANN(
+	ANN_NO				VARCHAR2(20)  NOT NULL,	
+	EMP_NO				VARCHAR2(20)  NOT NULL,	
+	ANN_DATE			DATE          DEFAULT SYSDATE NOT NULL,	
+	ANN_TITLE			VARCHAR2(100) NOT NULL,	
+	ANN_CONTENT		CLOB,
+	ANN_STATUS		VARCHAR2(2)  	NOT NULL,
+	
+	CONSTRAINT ANN_EMP_NO_FK FOREIGN KEY (EMP_NO) REFERENCES EMP (EMP_NO),
+	CONSTRAINT ANN_NO_PK PRIMARY KEY (ANN_NO));
+  
+
+
+CREATE SEQUENCE ANN_SEQ
+	INCREMENT BY 1
+	START WITH 1
+	NOMAXVALUE
+	NOCYCLE
+	NOCACHE;
+
+
+INSERT INTO ANN VALUES ('ANO'||ANN_SEQ.NEXTVAL,'1001',TO_DATE('2016-11-01 08:30','YYYY-MM-DD HH24:mi'),'豬肉料理介紹','日式咖哩豬排....~~','1');
+INSERT INTO ANN VALUES ('ANO'||ANN_SEQ.NEXTVAL,'1001',TO_DATE('2016-11-01 09:30','YYYY-MM-DD HH24:mi'),'牛肉料理介紹','日本神戶牛排....~~','1');
+INSERT INTO ANN VALUES ('ANO'||ANN_SEQ.NEXTVAL,'1003',TO_DATE('2016-11-01 10:30','YYYY-MM-DD HH24:mi'),'羊肉料理介紹','新疆羊肉串....~~','1');
+INSERT INTO ANN VALUES ('ANO'||ANN_SEQ.NEXTVAL,'1002',TO_DATE('2016-11-02 08:30','YYYY-MM-DD HH24:mi'),'豬肉料理介紹','薑燒豬肉....~~','1');
+INSERT INTO ANN VALUES ('ANO'||ANN_SEQ.NEXTVAL,'1003',TO_DATE('2016-11-02 09:30','YYYY-MM-DD HH24:mi'),'雞肉料理介紹','台式鹽酥雞....~~','1');
+
+COMMIT;
+
+---------------------------------------------------------------------------------------
+
+
+建立FRD_LIST
+-----------------------------------------------
+
+CREATE TABLE FRD_LIST (
+ MEM_NO       	VARCHAR2(20) NOT NULL,
+ FRIEND_NO     	VARCHAR2(20) NOT NULL,
+ FRIEND_CHK			VARCHAR2(1) NOT NULL,
+
+ CONSTRAINT FRD_LIST_MEM_NO_FK FOREIGN KEY (MEM_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT FRD_LIST_FRIEND_NO_FK FOREIGN KEY (FRIEND_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT FRD_LIST_MEM_NO_FRIEND_NO_PK PRIMARY KEY (MEM_NO, FRIEND_NO));
+
+
+INSERT INTO FRD_LIST (MEM_NO, FRIEND_NO, FRIEND_CHK) 
+VALUES ('M00000001','M00000002','0');
+INSERT INTO FRD_LIST (MEM_NO, FRIEND_NO, FRIEND_CHK) 
+VALUES ('M00000002','M00000001','1');
+INSERT INTO FRD_LIST (MEM_NO, FRIEND_NO, FRIEND_CHK) 
+VALUES ('M00000001','M00000003','0');
+INSERT INTO FRD_LIST (MEM_NO, FRIEND_NO, FRIEND_CHK) 
+VALUES ('M00000003','M00000001','1');
+INSERT INTO FRD_LIST (MEM_NO, FRIEND_NO, FRIEND_CHK) 
+VALUES ('M00000001','M00000004','0');
+
+commit;
+
+------------------------------------------------------
+
+
+建立 ESSAY
+------------------------------------------------------
+
+CREATE TABLE ESSAY (
+ ESA_NO         VARCHAR2(20) NOT NULL,
+ MEM_NO         VARCHAR2(20) NOT NULL,
+ ESA_DETAIL     CLOB,
+ ESA_TITLE			VARCHAR2(60) NOT NULL,
+ ESA_DATE				DATE NOT NULL,
+ ESA_POP				NUMBER NOT NULL,
+ CONSTRAINT ESSAY_MEM_NO_FK FOREIGN KEY (MEM_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT ESSAY_ESA_NO_PK PRIMARY KEY (ESA_NO));
+
+CREATE SEQUENCE essay_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+INSERT INTO ESSAY (ESA_NO, MEM_NO, ESA_DETAIL, ESA_TITLE, ESA_DATE, ESA_POP) 
+VALUES ('E'||lpad(essay_seq.NEXTVAL,8,0),'M00000001','1台北不是我的家，我的家鄉沒有霓虹燈','1我想出去玩',TO_DATE('2016-01-01 18:00:01','YYYY-MM-DD HH24:mi:ss'),1111);
+INSERT INTO ESSAY (ESA_NO, MEM_NO, ESA_DETAIL, ESA_TITLE, ESA_DATE, ESA_POP) 
+VALUES ('E'||lpad(essay_seq.NEXTVAL,8,0),'M00000002','2大哥大嫂新年好，你是我的爺，我是你的兒','2鬼子來了',TO_DATE('2016-02-02 18:00:02','YYYY-MM-DD HH24:mi:ss'),222);
+INSERT INTO ESSAY (ESA_NO, MEM_NO, ESA_DETAIL, ESA_TITLE, ESA_DATE, ESA_POP) 
+VALUES ('E'||lpad(essay_seq.NEXTVAL,8,0),'M00000003','3翻譯翻譯甚麼事驚喜','3讓子彈飛',TO_DATE('2016-03-03 18:00:03','YYYY-MM-DD HH24:mi:ss'),33);
+INSERT INTO ESSAY (ESA_NO, MEM_NO, ESA_DETAIL, ESA_TITLE, ESA_DATE, ESA_POP) 
+VALUES ('E'||lpad(essay_seq.NEXTVAL,8,0),'M00000004','4給我一首歌的時間，讓擁抱變成永遠','4一首歌的時間',TO_DATE('2016-04-04 18:00:04','YYYY-MM-DD HH24:mi:ss'),4444);
+INSERT INTO ESSAY (ESA_NO, MEM_NO, ESA_DETAIL, ESA_TITLE, ESA_DATE, ESA_POP) 
+VALUES ('E'||lpad(essay_seq.NEXTVAL,8,0),'M00000005','5自動化測試建置與部署很難，要學自動化測試與工具整合','5測試git',TO_DATE('2016-05-05 18:00:05','YYYY-MM-DD HH24:mi:ss'),55);
+
+commit;
+-----------------------------------------------
+
+建立 essay_message
+------------------------------------
+
+CREATE TABLE ESSAY_MESSAGE (
+ ESAMSG_NO      VARCHAR2(20) NOT NULL,
+ MEM_NO         VARCHAR2(20) NOT NULL,
+ ESA_NO     		VARCHAR2(20) NOT NULL,
+ ESA_REL				VARCHAR2(20),
+ ESAMSG_DETAIL	VARCHAR2(300),
+ ESAMSG_DATE		DATE NOT NULL,
+ CONSTRAINT ESSAY_MESSAGE_MEM_NO_FK FOREIGN KEY (MEM_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT ESSAY_MESSAGE_ESA_NO_FK FOREIGN KEY (ESA_NO) REFERENCES ESSAY (ESA_NO),
+ CONSTRAINT ESSAY_MESSAGE_ESA_REL_FK FOREIGN KEY (ESA_REL) REFERENCES ESSAY_MESSAGE (ESAMSG_NO),
+ CONSTRAINT ESSAY_MESSAGE_ESAMSG_NO_PK PRIMARY KEY (ESAMSG_NO));
+
+
+CREATE SEQUENCE essay_message_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+INSERT INTO ESSAY_MESSAGE (ESAMSG_NO, MEM_NO, ESA_NO, ESA_REL, ESAMSG_DETAIL, ESAMSG_DATE) 
+VALUES ('RE'||essay_message_seq.NEXTVAL,'M00000001','E00000001','','寫的不錯1',TO_DATE('2016-01-01 20:00:01','YYYY-MM-DD HH24:mi:ss'));
+INSERT INTO ESSAY_MESSAGE (ESAMSG_NO, MEM_NO, ESA_NO, ESA_REL, ESAMSG_DETAIL, ESAMSG_DATE) 
+VALUES ('RE'||essay_message_seq.NEXTVAL,'M00000002','E00000001','','寫的還好2',TO_DATE('2016-02-02 20:00:02','YYYY-MM-DD HH24:mi:ss'));
+INSERT INTO ESSAY_MESSAGE (ESAMSG_NO, MEM_NO, ESA_NO, ESA_REL, ESAMSG_DETAIL, ESAMSG_DATE) 
+VALUES ('RE'||essay_message_seq.NEXTVAL,'M00000003','E00000004','RE1','寫的真好3',TO_DATE('2016-03-03 20:00:03','YYYY-MM-DD HH24:mi:ss'));
+INSERT INTO ESSAY_MESSAGE (ESAMSG_NO, MEM_NO, ESA_NO, ESA_REL, ESAMSG_DETAIL, ESAMSG_DATE) 
+VALUES ('RE'||essay_message_seq.NEXTVAL,'M00000004','E00000002','RE2','寫的還好4',TO_DATE('2016-04-04 20:00:04','YYYY-MM-DD HH24:mi:ss'));
+INSERT INTO ESSAY_MESSAGE (ESAMSG_NO, MEM_NO, ESA_NO, ESA_REL, ESAMSG_DETAIL, ESAMSG_DATE) 
+VALUES ('RE'||essay_message_seq.NEXTVAL,'M00000005','E00000003','RE1','寫的普普5',TO_DATE('2016-05-05 20:00:05','YYYY-MM-DD HH24:mi:ss'));
+
+commit;
+---------------------------------------------------------------------------------------------
+
+建立 customer_demand
+----------------------------------------------------------------
+
+CREATE TABLE CUSTOMER_DEMAND (
+ CUSDE_NO         	VARCHAR2(20) NOT NULL,
+ MEM_NO         		VARCHAR2(20) NOT NULL,
+ CUSDE_DETAIL     	CLOB,
+ CUSDE_DATE					DATE,
+ CUSDE_CREATE_DATE	DATE NOT NULL,
+ CUSDE_TITLE				VARCHAR2(90) NOT NULL,
+ CONSTRAINT CUSTOMER_DEMAND_MEM_NO_FK FOREIGN KEY (MEM_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT CUSTOMER_DEMAND_CUSDE_NO_PK PRIMARY KEY (CUSDE_NO));
+
+CREATE SEQUENCE CUSTOMER_DEMAND_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+INSERT INTO CUSTOMER_DEMAND (CUSDE_NO, MEM_NO, CUSDE_DETAIL, CUSDE_DATE, CUSDE_CREATE_DATE, CUSDE_TITLE) 
+VALUES ('CN'||CUSTOMER_DEMAND_seq.NEXTVAL,'M00000001','1黯然消魂飯',TO_DATE('2016-01-02 18:00','YYYY-MM-DD HH24:mi:ss'),TO_DATE('2016-01-01 18:00:01','YYYY-MM-DD HH24:mi:ss'),'1尋求食神');
+INSERT INTO CUSTOMER_DEMAND (CUSDE_NO, MEM_NO, CUSDE_DETAIL, CUSDE_DATE, CUSDE_CREATE_DATE, CUSDE_TITLE) 
+VALUES ('CN'||CUSTOMER_DEMAND_seq.NEXTVAL,'M00000001','2大魯飯、乾麵、便當',TO_DATE('2016-01-03 18:00','YYYY-MM-DD HH24:mi:ss'),TO_DATE('2016-03-01 18:00:02','YYYY-MM-DD HH24:mi:ss'),'2尋求魯神');
+INSERT INTO CUSTOMER_DEMAND (CUSDE_NO, MEM_NO, CUSDE_DETAIL, CUSDE_DATE, CUSDE_CREATE_DATE, CUSDE_TITLE) 
+VALUES ('CN'||CUSTOMER_DEMAND_seq.NEXTVAL,'M00000002','3佛跳牆、花好月圓、百年好合、永浴愛河',TO_DATE('2016-01-04 18:00','YYYY-MM-DD HH24:mi:ss'),TO_DATE('2016-04-01 18:00:03','YYYY-MM-DD HH24:mi:ss'),'3尋求愛神');
+INSERT INTO CUSTOMER_DEMAND (CUSDE_NO, MEM_NO, CUSDE_DETAIL, CUSDE_DATE, CUSDE_CREATE_DATE, CUSDE_TITLE) 
+VALUES ('CN'||CUSTOMER_DEMAND_seq.NEXTVAL,'M00000002','4清蒸JDBC、炭烤Servlet',TO_DATE('2016-01-05 18:00','YYYY-MM-DD HH24:mi:ss'),TO_DATE('2016-05-01 18:00:04','YYYY-MM-DD HH24:mi:ss'),'4尋求吳神');
+INSERT INTO CUSTOMER_DEMAND (CUSDE_NO, MEM_NO, CUSDE_DETAIL, CUSDE_DATE, CUSDE_CREATE_DATE, CUSDE_TITLE) 
+VALUES ('CN'||CUSTOMER_DEMAND_seq.NEXTVAL,'M00000002','5優格',TO_DATE('2016-01-06 18:00','YYYY-MM-DD HH24:mi:ss'),TO_DATE('2016-06-01 18:00:05','YYYY-MM-DD HH24:mi:ss'),'5優格姐姐');
+
+commit;
+--------------------------------------------------------------------
+
+建立 collection
+-------------------------------------------
+
+
+CREATE TABLE COLLECTION (
+ COLL_NO      VARCHAR2(20) NOT NULL,
+ MEM_NO       VARCHAR2(20) NOT NULL,
+ ALL_NO     	VARCHAR2(20) NOT NULL,
+ CLASS_NO			VARCHAR2(2) NOT NULL,
+
+ CONSTRAINT COLLECTION_MEM_NO_FK FOREIGN KEY (MEM_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT COLLECTION_MEM_NO_ALL_NO_UK UNIQUE(MEM_NO, ALL_NO,CLASS_NO),
+ CONSTRAINT COLLECTION_COLL_NO_PK PRIMARY KEY (COLL_NO));
+ 
+
+CREATE SEQUENCE COLLECTION_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+INSERT INTO COLLECTION (COLL_NO, MEM_NO, ALL_NO, CLASS_NO) 
+VALUES ('CO'||COLLECTION_seq.NEXTVAL,'M00000001','C00000001','C');
+INSERT INTO COLLECTION (COLL_NO, MEM_NO, ALL_NO, CLASS_NO) 
+VALUES ('CO'||COLLECTION_seq.NEXTVAL,'M00000001','R00000001','R');
+INSERT INTO COLLECTION (COLL_NO, MEM_NO, ALL_NO, CLASS_NO) 
+VALUES ('CO'||COLLECTION_seq.NEXTVAL,'M00000001','M00000002','L');
+INSERT INTO COLLECTION (COLL_NO, MEM_NO, ALL_NO, CLASS_NO) 
+VALUES ('CO'||COLLECTION_seq.NEXTVAL,'M00000001','F00000001','F');
+INSERT INTO COLLECTION (COLL_NO, MEM_NO, ALL_NO, CLASS_NO) 
+VALUES ('CO'||COLLECTION_seq.NEXTVAL,'M00000001','C00000002','C');
+
+commit;
+------------------------------------------------
+
+建立chef
+--------------------------------------------------
+
+
+CREATE TABLE chef(
+ CHEF_NO             VARCHAR2(20)    NOT NULL,
+ MEM_NO              VARCHAR2(20)    NOT NULL,
+ CHEF_CHK_COND       VARCHAR2(1)     NOT NULL,
+ CHEF_BNK            VARCHAR2(5)     NOT NULL,
+ CHEF_BNK_AC         VARCHAR2(15)    NOT NULL,
+ CHEF_SKILL          VARCHAR2(30)    NOT NULL,
+ CHEF_LIC            BLOB            ,
+ CHEF_IMAGE          BLOB            ,
+ CHEF_MOVIE1         BLOB            ,
+ CHEF_MOVIE2         BLOB            ,
+ CHEF_ID             VARCHAR2(10)    NOT NULL,
+ CHEF_NAME           VARCHAR2(90)    NOT NULL,
+ CHEF_AREA           VARCHAR2(200),
+ CHEF_INTR           CLOB,
+ CHEF_MENU           CLOB,
+ CHEF_RECI_IMAGE1    BLOB,
+ CHEF_RECI_IMAGE2    BLOB,
+ CHEF_RECI_IMAGE3    BLOB,
+ CHEF_RECI_IMAGE4    BLOB,
+ CHEF_RECI_IMAGE5    BLOB,
+
+ CONSTRAINT CHEF_chef_id_UK UNIQUE(chef_id),
+ CONSTRAINT CHEF_mem_id_UK UNIQUE(mem_no),
+ CONSTRAINT CHEFN_MEM_NO_FK FOREIGN KEY (MEM_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT CHEF_CHEF_NO_PK PRIMARY KEY (CHEF_NO)
+ );
+
+CREATE SEQUENCE chef_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCACHE
+NOCYCLE;
+
+INSERT INTO chef VALUES ('C' || lpad(chef_seq.NEXTVAL,8,0),'M00000001','1','700','26014167123096',
+'各式中華料理','','','','','A123456789','劉昂星','金門縣','中華一番小當家','滿漢全席','','','','','');
+INSERT INTO chef VALUES ('C' || lpad(chef_seq.NEXTVAL,8,0),'M00000002','1','700','61614161813456',
+'港式料理','','','','','B123456789','史提芬周','花蓮縣','食神','黯然銷魂飯','','','','','');
+INSERT INTO chef VALUES ('C' || lpad(chef_seq.NEXTVAL,8,0),'M00000003','1','700','69451340578716',
+'中華料理','','','','','C123456789','唐牛','台東縣','食神的死對頭','超級無敵海景佛跳牆','','','','','');
+INSERT INTO chef VALUES ('C' || lpad(chef_seq.NEXTVAL,8,0),'M00000004','1','700','03895561464616',
+'中華料理','','','','','D123456789','李嚴','苗栗縣','那個醬汁呢?','黃金炸蝦','','','','','');
+INSERT INTO chef VALUES ('C' || lpad(chef_seq.NEXTVAL,8,0),'M00000005','1','700','89127302547626',
+'中式點心','','','','','E123456789','解師傅','南投縣','鋼棍解師傅','黃金開口笑','','','','','');
+
+commit;
+
+------------------------------------------------------------------------------------------------------------
+
+
+建立 schedule
+-------------------------------------------------------------------
+
+CREATE TABLE chef_schedule(
+ CHEF_NO         VARCHAR2(20)      NOT NULL,
+ CHEF_SCD_DATE   DATE              NOT NULL,
+ CHEF_SCD_MAE    VARCHAR2(3)       NOT NULL,
+ CHEF_SCD_CNT    VARCHAR2(300), 
+
+ CONSTRAINT CHEF_SCHEDULE_CHEF_NO_FK FOREIGN KEY (CHEF_NO) REFERENCES CHEF (CHEF_NO),
+ CONSTRAINT CHEF_SCD_PK PRIMARY KEY (CHEF_NO,CHEF_SCD_DATE,CHEF_SCD_MAE) 
+ );
+
+
+INSERT INTO chef_schedule VALUES ('C00000001',TO_DATE('2017-01-01','YYYY-MM-DD'),'早','1日早上參加元旦升旗，不開放接案');
+
+INSERT INTO chef_schedule VALUES ('C00000001',TO_DATE('2017-01-08','YYYY-MM-DD'),'晚','8日晚上有私事不便接案');
+
+INSERT INTO chef_schedule VALUES ('C00000001',TO_DATE('2017-01-15','YYYY-MM-DD'),'中','已被預訂');
+
+INSERT INTO chef_schedule VALUES ('C00000001',TO_DATE('2017-01-22','YYYY-MM-DD'),'晚','22日晚上與家人聚餐，不開放接案');
+
+INSERT INTO chef_schedule VALUES ('C00000001',TO_DATE('2017-01-29','YYYY-MM-DD'),'中','29日中午休息');
+
+commit;
+
+--------------------------------------------------------------------------------------------------------------------
+
+建立chef_order_list
+--------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE chef_order_list(
+ CHEF_ORD_NO       VARCHAR2(20)    NOT NULL,
+ MEM_NO            VARCHAR2(20)    NOT NULL,
+ CHEF_NO           VARCHAR2(20)    NOT NULL,
+ CHEF_ORD_COST     NUMBER(8,2)          ,
+ CHEF_ACT_DATE     DATE            NOT NULL,
+ CHEF_ORD_PLACE    VARCHAR2(200)   NOT NULL,
+ CHEF_ORD_CNT      VARCHAR2(500)   ,
+ CHEF_ORD_CON      VARCHAR2(1)     NOT NULL,
+ CHEF_APPR         VARCHAR2(1)     ,
+ CHEF_APPR_CNT     VARCHAR2(300),
+ CHEF_ORD_DATE	   DATE not null,
+
+ CONSTRAINT CHEF_ORDER_LIST_CHEF_ORD_NO_PK PRIMARY KEY (CHEF_ORD_NO),
+ CONSTRAINT CHEF_ORDER_LIST_CHEF_NO_FK FOREIGN KEY (CHEF_NO) REFERENCES CHEF (CHEF_NO)
+ );
+
+CREATE SEQUENCE chef_order_list_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCACHE
+NOCYCLE;
+
+INSERT INTO chef_order_list VALUES ('COL' || lpad(chef_order_list_seq.NEXTVAL,6,0),'M00000001','C00000005',
+3000,TO_DATE('2017-01-01','YYYY-MM-DD'),'台北市','糖醋排骨教學','1','5','滿意',sysdate);
+INSERT INTO chef_order_list VALUES ('COL' || lpad(chef_order_list_seq.NEXTVAL,6,0),'M00000002','C00000004',
+2000,TO_DATE('2017-01-02','YYYY-MM-DD'),'基隆市','咕咾肉','2','4','滿意',sysdate);
+INSERT INTO chef_order_list VALUES ('COL' || lpad(chef_order_list_seq.NEXTVAL,6,0),'M00000003','C00000002',
+2300,TO_DATE('2017-01-03','YYYY-MM-DD'),'新北市','揚州炒飯','1','4','滿意',sysdate);
+INSERT INTO chef_order_list VALUES ('COL' || lpad(chef_order_list_seq.NEXTVAL,6,0),'M00000004','C00000003',
+2500,TO_DATE('2017-01-04','YYYY-MM-DD'),'新竹市','炒米粉','1','3','滿意',sysdate);
+INSERT INTO chef_order_list VALUES ('COL' || lpad(chef_order_list_seq.NEXTVAL,6,0),'M00000005','C00000004',
+4500,TO_DATE('2017-01-05','YYYY-MM-DD'),'桃園市','左宗棠雞','1','5','滿意',sysdate);
+
+commit;
+---------------------------------------------------------------------------
+
+建立 chef_refund
+------------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE chef_refund(
+ CHEF_RFD_NO         VARCHAR2(20)    NOT NULL,
+ CHEF_ORD_NO         VARCHAR2(20)    NOT NULL,
+ EMP_NO              VARCHAR2(20)    NOT NULL,
+ CHEF_RFD_PER        NUMBER(3,2)          NOT NULL,
+ MEM_BNK             VARCHAR2(5)     NOT NULL,
+ MEM_BNK_AC          VARCHAR2(14)    NOT NULL,
+ CHEF_ORD_CHK_COND   VARCHAR2(1)     NOT NULL,
+ CHEF_ORD_RED_CNT    VARCHAR2(300),   
+
+ CONSTRAINT CHEF_REFUND_CHEF_RFD_NO_PK PRIMARY KEY (CHEF_RFD_NO),
+ CONSTRAINT CHEF_REFUND_C_O_NO_FK FOREIGN KEY (CHEF_ORD_NO) REFERENCES chef_order_list (CHEF_ORD_NO),
+ CONSTRAINT CHEF_REFUND_E_NO_FK FOREIGN KEY (EMP_NO) REFERENCES EMP (EMP_NO)
+ );
+
+CREATE SEQUENCE chef_refund_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCACHE
+NOCYCLE;
+
+INSERT INTO chef_refund VALUES ('CR' || lpad(chef_refund_seq.NEXTVAL,7,0),
+'COL000001','1001',1,'700','10256381159730','2','因颱風天取消');
+INSERT INTO chef_refund VALUES ('CR' || lpad(chef_refund_seq.NEXTVAL,7,0),
+'COL000002','1002',0,'700','10256381159730','0','客戶臨時取消');
+INSERT INTO chef_refund VALUES ('CR' || lpad(chef_refund_seq.NEXTVAL,7,0),
+'COL000003','1001',1,'700','10256381159730','2','私廚生病請假');
+INSERT INTO chef_refund VALUES ('CR' || lpad(chef_refund_seq.NEXTVAL,7,0),
+'COL000004','1003',0.9,'700','10256381159730','1','客戶7天前取消');
+
+
+commit;
+
+--------------------------------------------------------------------------------
+
+建立表格 live
+
+---------------------------------------------------------------------
+
+
+create table live(
+
+ mem_no  		varchar2(20) not null,
+ live_name		varchar2(40),
+ live_intro		CLOB,
+ live_pic		BLOB,
+ live_counts		Number default 0 not null,
+ live_follow		Number default 0 not null,
+ live_status		varchar2(1) not null,
+
+
+ CONSTRAINT live_mem_no_PK PRIMARY KEY (mem_no),
+ CONSTRAINT live_mem_no_FK FOREIGN KEY (mem_no) REFERENCES  member(mem_no)
+ );
+ 
+ INSERT INTO live values('M00000001','法式料理教學','米其林廚師帶你飛',null,600,33,'0');
+ INSERT INTO live values('M00000002','地獄廚房','高登的髒話實況',null,1000,99,'0');
+ INSERT INTO live values('M00000003','義大利廚師live show!','番茄',null,230,13,'0');
+ INSERT INTO live values('M00000004','美食廚房','我的廚房超大',null,2022,356,'0');
+ 
+ 
+ commit;
+------------------------------------------------------------------------------
+
+建立表格 film和seq
+-------------------------------------------------------
+
+create table film(
+
+ film_no  		varchar2(20) not null,
+ mem_no			varchar2(20) not null,
+ film_title		varchar2(60) not null,
+ film_content		CLOB,
+ film_date		date default sysdate not null,
+ film_file		BLOB,
+ film_like		Number default 0,
+ film_popular		Number default 0,
+
+ CONSTRAINT film_film_no_PK PRIMARY KEY (film_no),
+ CONSTRAINT film_mem_no_FK FOREIGN KEY (mem_no) REFERENCES  member(mem_no)
+ );
+
+ CREATE SEQUENCE film_seq
+ INCREMENT BY 1
+ START WITH 1
+ NOMAXVALUE
+ NOCACHE
+ NOCYCLE;
+ 
+ INSERT INTO film(film_no,mem_no,film_title,film_content,film_date,film_like,film_popular)
+  values('F'||lpad(film_seq.NEXTVAL,8,0),'M00000004','title of film','bset film ever',to_date('2016-02-17 18:24','YYYY-MM-DD HH24:mi'),20,300);
+ INSERT INTO film(film_no,mem_no,film_title,film_content,film_date,film_like,film_popular)
+  values('F'||lpad(film_seq.NEXTVAL,8,0),'M00000003','my film','world film collection',to_date('2016-03-17 20:40','YYYY-MM-DD HH24:mi'),40,500);
+ INSERT INTO film(film_no,mem_no,film_title,film_content,film_date,film_like,film_popular)
+  values('F'||lpad(film_seq.NEXTVAL,8,0),'M00000002','pop film','my style',to_date('2016-03-24 10:20','YYYY-MM-DD HH24:mi'),30,312);
+  INSERT INTO film(film_no,mem_no,film_title,film_content,film_date,film_like,film_popular)
+  values('F'||lpad(film_seq.NEXTVAL,8,0),'M00000005','tech','quick slice',to_date('2016-04-10 20:33','YYYY-MM-DD HH24:mi'),120,2000);
+ INSERT INTO film(film_no,mem_no,film_title,film_content,film_date,film_like,film_popular)
+  values('F'||lpad(film_seq.NEXTVAL,8,0),'M00000004','soup','finish in  3 minutes',to_date('2016-05-18 20:40','YYYY-MM-DD HH24:mi'),15,111);
+
+ commit;
+
+---------------------------------------------------------------------------------------------------------
+
+
+建立表格 film_message和seq
+
+-------------------------------------------------------------------------
+
+create table film_message(
+ film_msg_no  		varchar2(20) not null,
+ mem_no			varchar2(20) not null,
+ film_no		varchar2(20) not null,
+ film_msg_ref		varchar2(20),
+ film_msg_content	varchar2(300) not null,
+ film_msg_date		date default sysdate not null,
+
+ CONSTRAINT film_message_PK PRIMARY KEY (film_msg_no),
+ CONSTRAINT film_msg_mem_no_FK FOREIGN KEY (mem_no) REFERENCES  member(mem_no),
+ CONSTRAINT film_msg_film_no_FK FOREIGN KEY (film_no) REFERENCES  film(film_no),
+ CONSTRAINT film_msg_film_msg_ref_FK FOREIGN KEY (film_msg_ref) REFERENCES  film_message (film_msg_no)
+);
+
+ CREATE SEQUENCE film_message_seq
+ INCREMENT BY 1
+ START WITH 1
+ NOMAXVALUE
+ NOCACHE
+ NOCYCLE;
+
+ INSERT INTO film_message values('FM'||lpad(film_message_seq.NEXTVAL,8,0),'M00000001','F00000001','','影片BAD!',to_date('2016-02-18 15:24','YYYY-MM-DD HH24:mi'));
+ INSERT INTO film_message values('FM'||lpad(film_message_seq.NEXTVAL,8,0),'M00000002','F00000001','FM00000001','影片HATE IT!',to_date('2016-03-30 09:20','YYYY-MM-DD HH24:mi'));
+ INSERT INTO film_message values('FM'||lpad(film_message_seq.NEXTVAL,8,0),'M00000003','F00000002','','影片LOVE IT!',to_date('2016-04-05 17:40','YYYY-MM-DD HH24:mi'));
+ INSERT INTO film_message values('FM'||lpad(film_message_seq.NEXTVAL,8,0),'M00000004','F00000001','FM00000003','影片SUCK!',to_date('2016-05-11 13:11','YYYY-MM-DD HH24:mi'));
+ INSERT INTO film_message values('FM'||lpad(film_message_seq.NEXTVAL,8,0),'M00000005','F00000002','','影片GOOD!',to_date('2016-07-26 11:43','YYYY-MM-DD HH24:mi'));
+
+ commit;
+------------------------------------------------------------------------------------------
+
+建立表格: REP_CASE
+--------------------------------------------------------------------------------------------------------
+
+CREATE TABLE REPORT_CASE (
+ REP_NO             VARCHAR2(20) NOT NULL,
+ REP_MEM_NO         VARCHAR2(20) NOT NULL,
+ REP_TAR_NO         VARCHAR2(20) NOT NULL,
+ REP_TYPE           VARCHAR2(2)  NOT NULL,
+ REP_REASON         VARCHAR2(150) NOT NULL,
+ REP_DATE           DATE default sysdate NOT NULL,
+ REP_CHK_CON        VARCHAR2(1) default 0 NOT NULL,
+ 
+ CONSTRAINT REPORT_CASE_REPORT_NO_PK PRIMARY KEY (REP_NO),
+ CONSTRAINT REPORT_CASE_REPORT_MEM_NO_FK FOREIGN KEY (REP_MEM_NO) REFERENCES MEMBER (MEM_NO));  
+ 
+CREATE SEQUENCE report_case_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+INSERT INTO REPORT_CASE VALUES('RE'||lpad(report_case_seq.NEXTVAL,8,0),'M00000001','M00000002','L','This guy sucks.',TO_DATE('2016-02-18 15:24','YYYY-MM-DD HH24:mi'),'0');
+INSERT INTO REPORT_CASE VALUES('RE'||lpad(report_case_seq.NEXTVAL,8,0),'M00000005','R00000001','R','I AM YOUR NIGHTMARE',TO_DATE('2016-02-18 15:24','YYYY-MM-DD HH24:mi'),'0');
+INSERT INTO REPORT_CASE VALUES('RE'||lpad(report_case_seq.NEXTVAL,8,0),'M00000004','F00000003','F','WHO ARE YOU?',TO_DATE('2016-02-18 15:24','YYYY-MM-DD HH24:mi'),'0');
+INSERT INTO REPORT_CASE VALUES('RE'||lpad(report_case_seq.NEXTVAL,8,0),'M00000002','F00000001','F','HOW COULD YOU DO THIS TO ME?',TO_DATE('2016-02-18 15:24','YYYY-MM-DD HH24:mi'),'0');
+INSERT INTO REPORT_CASE VALUES('RE'||lpad(report_case_seq.NEXTVAL,8,0),'M00000003','M00000002','L','BECAUSE I AM BATMAN!',TO_DATE('2016-02-18 15:24','YYYY-MM-DD HH24:mi'),'0');
+
+
+commit;
+--------------------------------------------------------------------------------------------------------
+
+建立表格: MESSAGE和SEQ
+--------------------------------------------------------------------------------------------------------
+
+
+CREATE TABLE MESSAGE (
+ MSG_NO				VARCHAR2(20) NOT NULL,
+ MEM_NO				    VARCHAR2(20) NOT NULL,
+ MSG_MEM_NO				    VARCHAR2(20) not null,
+ MSG_REL				VARCHAR2(20),
+ MSG_DETAIL				VARCHAR2(600) ,
+ MSG_DATE		        DATE default sysdate NOT NULL,
+ 
+ CONSTRAINT MESSAGE_PK PRIMARY KEY (MSG_NO),
+ CONSTRAINT MESSAGE_MEM_NO_FK FOREIGN KEY (MEM_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT MESSAGE_msg_MEM_NO_FK FOREIGN KEY (MSG_MEM_NO) REFERENCES MEMBER (MEM_NO),
+ CONSTRAINT MESSAGE_MSG_RELATE_FK FOREIGN KEY (MSG_REL) REFERENCES MESSAGE (MSG_NO));
+
+CREATE SEQUENCE message_seq
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+NOCACHE;
+
+INSERT INTO MESSAGE VALUES('ME'||lpad(message_seq.NEXTVAL,8,0),'M00000001','M00000002','','Hello!',TO_DATE('2016-02-18 15:24','YYYY-MM-DD HH24:mi'));
+INSERT INTO MESSAGE VALUES('ME'||lpad(message_seq.NEXTVAL,8,0),'M00000004','M00000003','','Hi!',TO_DATE('2016-02-19 15:24','YYYY-MM-DD HH24:mi'));
+INSERT INTO MESSAGE VALUES('ME'||lpad(message_seq.NEXTVAL,8,0),'M00000005','M00000002','ME00000001','How are you!',TO_DATE('2016-02-18 16:30','YYYY-MM-DD HH24:mi'));
+INSERT INTO MESSAGE VALUES('ME'||lpad(message_seq.NEXTVAL,8,0),'M00000003','M00000002','ME00000001','How did you cook this dish?',TO_DATE('2016-02-19 10:03','YYYY-MM-DD HH24:mi'));
+INSERT INTO MESSAGE VALUES('ME'||lpad(message_seq.NEXTVAL,8,0),'M00000002','M00000003','ME00000002','It looks so yummy!',TO_DATE('2016-03-15 11:43','YYYY-MM-DD HH24:mi'));
+
+commit;

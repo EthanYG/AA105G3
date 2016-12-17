@@ -28,7 +28,7 @@
   <li><a href='listAllAuth.jsp'>List</a> all Auths. </li> <br><br>
   
   <li>
-    <FORM METHOD="post" ACTION="auth.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/auth/auth.do" >
         <b>輸入權限編號 (如001):</b>
         <input type="text" name="auth_no">
         <input type="submit" value="送出">
@@ -39,7 +39,7 @@
   <jsp:useBean id="authSvc" scope="page" class="com.auth.model.AuthService" />
    
   <li>
-     <FORM METHOD="post" ACTION="auth.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/auth/auth.do" >
        <b>選擇權限編號:</b>
        <select size="1" name="auth_no">
          <c:forEach var="authVO" items="${authSvc.all}" > 
@@ -52,7 +52,7 @@
   </li>
   
   <li>
-     <FORM METHOD="post" ACTION="auth.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/auth/auth.do" >
        <b>選擇權限名稱:</b>
        <select size="1" name="auth_no">
          <c:forEach var="authVO" items="${authSvc.all}" > 
