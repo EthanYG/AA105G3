@@ -28,7 +28,7 @@
   <li><a href='listAllRecipe.jsp'>List</a> all Reicpes. </li> <br><br>
   
   <li>
-    <FORM METHOD="post" ACTION="recipe.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
         <b>輸入食譜編號 (如R00000001):</b>
         <input type="text" name="recipe_no">
         <input type="submit" value="送出">
@@ -39,7 +39,7 @@
   <jsp:useBean id="recipeSvc" scope="page" class="com.recipe.model.RecipeService" />
    
   <li>
-     <FORM METHOD="post" ACTION="recipe.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
        <b>選擇食譜編號:</b>
        <select size="1" name="recipe_no">
          <c:forEach var="recipeVO" items="${recipeSvc.all}" > 
@@ -52,7 +52,7 @@
   </li>
   
   <li>
-     <FORM METHOD="post" ACTION="recipe.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
        <b>選擇食譜名稱:</b>
        <select size="1" name="recipe_no">
          <c:forEach var="recipeVO" items="${recipeSvc.all}" > 
@@ -65,7 +65,7 @@
   </li>
   
   <li>
-     <FORM METHOD="post" ACTION="recipe.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
        <b>選擇食譜編號修改人氣:</b>
        <select size="1" name="recipe_no">
          <c:forEach var="recipeVO" items="${recipeSvc.all}" > 
