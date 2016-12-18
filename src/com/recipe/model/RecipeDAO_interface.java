@@ -11,5 +11,6 @@ public interface RecipeDAO_interface
     public List<RecipeVO> getAll();
     public void updateViews(RecipeVO recipeVO);
     public void updateLike(RecipeVO recipeVO);
+    public void changeWeekViewsZero(String recipe_no);
     
 }

@@ -34,7 +34,8 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 			"UPDATE recipe set recipe_total_views=?,recipe_week_views=? where recipe_no = ?";
 	private static final String UPDATELIKE =
 			"UPDATE recipe set recipe_like=? where recipe_no = ?";
-			
+	private static final String WeekViewsZero =
+			"UPDATE recipe set recipe_week_views = 0 where recipe_no = ?";
 			
 	
 	@Override
@@ -401,6 +402,45 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 		}
 	}
 	
+	@Override
+	public void changeWeekViewsZero(String recipe_no)
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, psw);
+			pstmt = con.prepareStatement(WeekViewsZero);
+
+			pstmt.setString(1, recipe_no);
+			
+
+			pstmt.executeUpdate();
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
 	
 	public static void main(String[] args)
 	{
@@ -432,7 +472,9 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 //		recipeVO6.setRecipe_no("R00000004");
 //		dao.updateLike(recipeVO6);
 		
-		
+		//WeekViewsZero
+		RecipeVO recipeVO7 = new RecipeVO();
+		dao.changeWeekViewsZero("R00000002");
 		//delete
 //		dao.delete("R00000002");
 		
@@ -463,6 +505,8 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 			System.out.println();
 		}
 	}
+
+	
 
 	
 }

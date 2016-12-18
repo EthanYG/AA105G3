@@ -45,7 +45,8 @@ public class RecipeJNDIDAO implements RecipeDAO_interface
 			"UPDATE recipe set recipe_total_views=?,recipe_week_views=? where recipe_no = ?";
 	private static final String UPDATELIKE =
 			"UPDATE recipe set recipe_like=? where recipe_no = ?";
-	
+	private static final String WeekViewsZero =
+			"UPDATE recipe set recipe_week_views = 0 where recipe_no = ?";
 	
 	
 	@Override
@@ -381,5 +382,43 @@ public class RecipeJNDIDAO implements RecipeDAO_interface
 			}
 		}
 	}
+	@Override
+	public void changeWeekViewsZero(String recipe_no)
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(WeekViewsZero);
+
+			pstmt.setString(1,recipe_no );
+			
+
+			pstmt.executeUpdate();
+
+		
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
 	
 }

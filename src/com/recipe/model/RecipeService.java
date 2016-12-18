@@ -71,5 +71,8 @@ public class RecipeService
 		return dao.getAll();
 	}
 	
-	
+	public void WeekViewsToZero(String recipe_no){
+		
+		dao.changeWeekViewsZero(recipe_no);
+	}
 }

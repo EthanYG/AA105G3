@@ -96,6 +96,11 @@
 
 <ul>
   <li><a href='addRecipe.jsp'>Add</a> a new Recipe.</li>
+  <li>
+  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do">
+			    <input type="submit" value="將周人氣歸零">
+			    <input type="hidden" name="action"value="recipe_week_viewsZero"></FORM>
+	</li>	
 </ul>
 
 </body>
