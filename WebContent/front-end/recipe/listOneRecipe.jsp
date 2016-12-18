@@ -12,7 +12,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>食譜資料 - ListOneRecipe.jsp</h3>
-		<a href="select_page.jsp">回首頁</a>
+		<a href="<%=request.getContextPath()%>/front-end/recipe/select_page.jsp">回首頁</a>
 		</td>
 	</tr>
 </table>

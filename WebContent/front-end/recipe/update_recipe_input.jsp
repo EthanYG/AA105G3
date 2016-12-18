@@ -17,7 +17,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>食譜資料修改 - update_recipe_input.jsp</h3>
-		<a href="select_page.jsp">回首頁</a></td>
+		<a href="<%=request.getContextPath()%>/front-end/recipe/select_page.jsp">回首頁</a></td>
 	</tr>
 </table>
 
@@ -33,7 +33,7 @@
 	</font>
 </c:if>
 
-<FORM METHOD="post" ACTION="recipe.do" name="form1">
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" name="form1">
 <table border="0">
 	<tr>
 		<td>食譜編號:<font color=red><b>*</b></font></td>

@@ -19,7 +19,7 @@
 		<h3>食譜新增頁面 - addRecipe.jsp</h3>
 		</td>
 		<td>
-		   <a href="select_page.jsp">回首頁</a>
+		   <a href="<%=request.getContextPath()%>/front-end/recipe/select_page.jsp">回首頁</a>
 	    </td>
 	</tr>
 </table>
@@ -36,7 +36,7 @@
 	</font>
 </c:if>
 
-<FORM METHOD="post" ACTION="recipe.do" name="form1" enctype="multipart/form-data">
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" name="form1" enctype="multipart/form-data">
 <table border="0">
 
 	<tr>

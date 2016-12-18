@@ -73,6 +73,19 @@
          </c:forEach>   
        </select>
        <input type="submit" value="送出">
+       <input type="hidden" name="action" value="getOne_For_UpdateViews">
+    </FORM>
+  </li>
+  
+  <li>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
+       <b>選擇食譜編號修改Like數:</b>
+       <select size="1" name="recipe_no">
+         <c:forEach var="recipeVO" items="${recipeSvc.all}" > 
+          <option value="${recipeVO.recipe_no}">${recipeVO.recipe_no}
+         </c:forEach>   
+       </select>
+       <input type="submit" value="送出">
        <input type="hidden" name="action" value="getOne_For_Display">
     </FORM>
   </li>
