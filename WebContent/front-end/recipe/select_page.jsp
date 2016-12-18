@@ -86,7 +86,7 @@
          </c:forEach>   
        </select>
        <input type="submit" value="送出">
-       <input type="hidden" name="action" value="getOne_For_Display">
+       <input type="hidden" name="action" value="getOne_For_UpdateLike">
     </FORM>
   </li>
 </ul>

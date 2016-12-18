@@ -44,20 +44,14 @@
 		<td>${recipeVO.recipe_name}</td>
 	</tr>
 	<tr>
-		<td>食譜原總人氣:</td>
-		<td>${recipeVO.recipe_total_views}</td>
-	</tr>
-	<tr>
-		<td>食譜原周人氣:</td>
-		<td>${recipeVO.recipe_week_views}</td>
-	</tr>
-	<tr>		
+		<td>食譜原總Like數:</td>
+		<td>${recipeVO.recipe_like}</td>
 		<td>要增加的人氣數:</td>
-		<td><input type="TEXT" name="recipe_viewsPlus" size="45" value="" /></td>
+		<td><input type="TEXT" name="recipe_likePlus" size="20" value="" /></td>
 	</tr>
 </table>
 <br>
-<input type="hidden" name="action" value="updateViews">
+<input type="hidden" name="action" value="updateLike">
 <input type="hidden" name="recipe_no" value=${recipeVO.recipe_no}>
 <input type="submit" value="送出修改"></FORM>
 

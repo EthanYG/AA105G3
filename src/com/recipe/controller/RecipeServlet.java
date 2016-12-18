@@ -257,7 +257,7 @@ public class RecipeServlet extends HttpServlet {
 			}
 		}
 		
-		if ("getOne_For_UpdateViews".equals(action)) { 
+		if ("getOne_For_UpdateViews".equals(action) || "getOne_For_UpdateLike".equals(action)) { 
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -273,10 +273,19 @@ public class RecipeServlet extends HttpServlet {
 				RecipeVO recipeVO = recipeSvc.getOneRecipe(recipe_no);
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("recipeVO", recipeVO);        
-				String url = "/front-end/recipe/update_recipeViews.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);
+				req.setAttribute("recipeVO", recipeVO);     
+				
+				
+				if (action.equals("getOne_For_UpdateViews"))
+				{
+					String url = "/front-end/recipe/update_recipeViews.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);
+					successView.forward(req, res);
+				}else if(action.equals("getOne_For_UpdateLike")){
+					String url = "/front-end/recipe/update_recipeLike.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url);
+					successView.forward(req, res);
+				}
 
 				/***************************其他可能的錯誤處理**********************************/
 			} catch (Exception e) {
@@ -298,28 +307,16 @@ public class RecipeServlet extends HttpServlet {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 				String recipe_no = req.getParameter("recipe_no").trim();
 				
-				Integer recipe_total_viewsPlus = null;
+				Integer recipe_viewsPlus = null;
 				try
 				{
-					recipe_total_viewsPlus = new Integer(req.getParameter("recipe_total_viewsPlus").trim());
+					recipe_viewsPlus = new Integer(req.getParameter("recipe_viewsPlus").trim());
 					
 				} catch (NumberFormatException e)
 				{
 					// TODO Auto-generated catch block
-					errorMsgs.add("總人氣增加數請填數字.");
-					recipe_total_viewsPlus=0;
-				}
-				
-				Integer recipe_week_viewsPlus = null;
-				try
-				{
-					recipe_week_viewsPlus = new Integer(req.getParameter("recipe_week_viewsPlus").trim());
-					
-				} catch (NumberFormatException e)
-				{
-					// TODO Auto-generated catch block
-					errorMsgs.add("周人氣增加數請填數字.");
-					recipe_week_viewsPlus=0;
+					errorMsgs.add("人氣增加數請填數字.");
+					recipe_viewsPlus=0;
 				}
 				
 				RecipeService recipeSvc = new RecipeService();
@@ -329,8 +326,7 @@ public class RecipeServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("recipeVO", recipeVO);
-					req.setAttribute("recipe_week_viewsPlus", recipe_week_viewsPlus);
-					req.setAttribute("recipe_total_viewsPlus", recipe_total_viewsPlus);
+					req.setAttribute("recipe_viewsPlus", recipe_viewsPlus);
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/front-end/recipe/update_recipeViews.jsp");
 					failureView.forward(req, res);
@@ -338,9 +334,9 @@ public class RecipeServlet extends HttpServlet {
 				}
 				
 				/***************************2.開始修改資料*****************************************/
-				Integer recipe_total_views = recipeVO.getRecipe_total_views()+recipe_total_viewsPlus;
+				Integer recipe_total_views = recipeVO.getRecipe_total_views()+recipe_viewsPlus;
 				
-				Integer recipe_week_views = recipeVO.getRecipe_week_views()+recipe_week_viewsPlus;
+				Integer recipe_week_views = recipeVO.getRecipe_week_views()+recipe_viewsPlus;
 				
 				recipeVO = recipeSvc.updateRecipeViews(recipe_no, recipe_total_views, recipe_week_views);
 				
@@ -356,6 +352,66 @@ public class RecipeServlet extends HttpServlet {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
 						.getRequestDispatcher("/front-end/recipe/update_recipeViews.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		
+		if ("updateLike".equals(action)) { 
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+		
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				String recipe_no = req.getParameter("recipe_no").trim();
+				
+				Integer recipe_likePlus = null;
+				try
+				{
+					recipe_likePlus = new Integer(req.getParameter("recipe_likePlus").trim());
+					
+				} catch (NumberFormatException e)
+				{
+					// TODO Auto-generated catch block
+					errorMsgs.add("Like增加數請填數字.");
+					recipe_likePlus=0;
+				}
+				
+				RecipeService recipeSvc = new RecipeService();
+				RecipeVO recipeVO = recipeSvc.getOneRecipe(recipe_no);
+				
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("recipeVO", recipeVO);
+					req.setAttribute("recipe_likePlus", recipe_likePlus);
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/front-end/recipe/update_recipeLike.jsp");
+					failureView.forward(req, res);
+					return; //程式中斷
+				}
+				
+				/***************************2.開始修改資料*****************************************/
+				Integer recipe_like = recipeVO.getRecipe_like()+recipe_likePlus;
+				
+				
+				recipeVO = recipeSvc.updateRecipeLike(recipe_no, recipe_like);
+				
+				recipeVO = recipeSvc.getOneRecipe(recipe_no);
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+				req.setAttribute("recipeVO", recipeVO); 
+				String url = "/front-end/recipe/listOneRecipe.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); 
+				successView.forward(req, res);
+
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:"+e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/front-end/recipe/update_recipeLike.jsp");
 				failureView.forward(req, res);
 			}
 		}
