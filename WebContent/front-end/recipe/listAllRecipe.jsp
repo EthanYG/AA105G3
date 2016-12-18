@@ -56,7 +56,9 @@
 	<c:forEach var="recipeVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr align='center' valign='middle'>
 			<td>${recipeVO.recipe_no}</td>
-			<td>圖片</td>
+			<td>
+				<img src="<%=request.getContextPath()%>/recipe/ShowRecipe_pic.do?recipe_no=${recipeVO.recipe_no}" style="width:100px;"/>
+			</td>
 			<td>${recipeVO.mem_no}</td>
 			<td>${recipeVO.recipe_name}</td>
 			<td>${recipeVO.recipe_intro}</td>

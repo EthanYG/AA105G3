@@ -5,10 +5,14 @@
 /* RecipeVO recipeVO = (RecipeVO) request.getAttribute("recipeVO"); */
 %>
 <jsp:useBean id="recipeVO" scope="request" class="com.recipe.model.RecipeVO"/>
+<jsp:useBean id="ingredients" scope="request" class="java.util.ArrayList"/>
+<jsp:useBean id="quantity" scope="request" class="java.util.ArrayList"/>
 <html>
 <head>
 <title>食譜新增頁面 - addRecipe.jsp</title></head>
 <link rel="stylesheet" type="text/css" href="js/calendar.css">
+<script language="JavaScript" src="<%=request.getContextPath()%>/js/showImg.js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
 <div id="popupcalendar" class="text"></div>
 
 <body bgcolor='white'>
@@ -49,17 +53,28 @@
 	</tr>
 	<tr>
 		<td>食材:</td>
-		<td><textarea name="food_mater" rows="6" cols="80">${recipeVO.food_mater}</textarea></td>
+	</tr>
+	<tr>
+		<td><input type="TEXT" name="ingredients" size="10" value="${ingredients[0]}" placeholder="食材"></td>
+		<td><input type="TEXT" name="quantity" size="10" value="${quantity[0]}" placeholder="份量"></td>
+	</tr>
+	<tr>
+		<td><input type="TEXT" name="ingredients" size="10" value="${ingredients[1]}" placeholder="食材"></td>
+		<td><input type="TEXT" name="quantity" size="10" value="${quantity[1]}" placeholder="份量"></td>
 	</tr>
 	<tr>
 		<td>食譜圖片:</td>
-		<td><input type="file" name="recipe_pic"></td>
+		<td><input type="file" name="recipe_pic" id = "upLoadFile" onchange="showImage()"></td>
 	</tr>
 </table>
 <br>
 <input type="hidden" name="action" value="insert">
 <input type="hidden" name="mem_no" value="M00000003"><!-- ${sessionScope.xxx.mem_no} -->
 <input type="submit" value="送出新增"></FORM>
+<p>
+		<image id="image">
+		
+  </p>
 </body>
 
 </html>

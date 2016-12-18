@@ -10,7 +10,7 @@ public class RecipeService
 	public RecipeService() {
 		dao = new RecipeDAO();
 	}
-	public RecipeVO addRecipe(String mem_no,String recipe_name,String recipe_intro,String food_mater) {
+	public RecipeVO addRecipe(String mem_no,String recipe_name,String recipe_intro,String food_mater,byte[] recipe_pic) {
 
 		RecipeVO recipeVO = new RecipeVO();
 
@@ -18,12 +18,13 @@ public class RecipeService
 		recipeVO.setRecipe_name(recipe_name);
 		recipeVO.setRecipe_intro(recipe_intro);
 		recipeVO.setFood_mater(food_mater);
+		recipeVO.setRecipe_pic(recipe_pic);
 		dao.insert(recipeVO);
 
 		return recipeVO;
 	}
 
-	public RecipeVO updateRecipe(String recipe_no,String recipe_name,String recipe_intro,String food_mater) {
+	public RecipeVO updateRecipe(String recipe_no,String recipe_name,String recipe_intro,String food_mater,byte[] recipe_pic) {
 
 		RecipeVO recipeVO = new RecipeVO();
 
@@ -31,6 +32,7 @@ public class RecipeService
 		recipeVO.setRecipe_name(recipe_name);
 		recipeVO.setRecipe_intro(recipe_intro);
 		recipeVO.setFood_mater(food_mater);
+		recipeVO.setRecipe_pic(recipe_pic);
 		dao.update(recipeVO);
 
 		return recipeVO;

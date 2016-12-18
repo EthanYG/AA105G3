@@ -1,6 +1,9 @@
 package com.recipe.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.recipe.model.*;
 
@@ -124,6 +128,20 @@ public class RecipeServlet extends HttpServlet {
 				String recipe_intro= req.getParameter("recipe_intro");
 				String food_mater= req.getParameter("food_mater").trim();
 				
+				RecipeService recipeSvc = new RecipeService();
+			
+				Part part = req.getPart("recipe_pic");
+				byte[] recipe_pic = null;
+				
+				if (getFileNameFromPart(part) != null && part.getContentType() != null) {	
+					InputStream in = part.getInputStream();
+					recipe_pic = new byte[in.available()];
+					in.read(recipe_pic);
+					in.close();
+				} else {
+					recipe_pic = recipeSvc.getOneRecipe(recipe_no).getRecipe_pic();
+				}	
+				
 				if(recipe_name==null || recipe_name.isEmpty()){
 					errorMsgs.add("食譜名稱不能為空白");
 				}
@@ -139,6 +157,7 @@ public class RecipeServlet extends HttpServlet {
 				recipeVO.setRecipe_name(recipe_name);
 				recipeVO.setRecipe_intro(recipe_intro);
 				recipeVO.setFood_mater(food_mater);
+				recipeVO.setRecipe_pic(recipe_pic);
 				
 				
 				
@@ -152,8 +171,8 @@ public class RecipeServlet extends HttpServlet {
 				}
 				
 				/***************************2.開始修改資料*****************************************/
-				RecipeService recipeSvc = new RecipeService();
-				recipeVO = recipeSvc.updateRecipe(recipe_no, recipe_name, recipe_intro, food_mater);
+				
+				recipeVO = recipeSvc.updateRecipe(recipe_no, recipe_name, recipe_intro, food_mater,recipe_pic);
 				recipeVO = recipeSvc.getOneRecipe(recipe_no);
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("recipeVO", recipeVO); 
@@ -183,7 +202,20 @@ public class RecipeServlet extends HttpServlet {
 				String mem_no = req.getParameter("mem_no").trim();
 				String recipe_name = req.getParameter("recipe_name").trim();
 				String recipe_intro = req.getParameter("recipe_intro").trim();
-				String food_mater = req.getParameter("food_mater");
+				
+				Part part = req.getPart("recipe_pic");
+				byte[] recipe_pic = null;
+				if (getFileNameFromPart(part) != null && part.getContentType() != null) {	
+					InputStream in = part.getInputStream();
+					recipe_pic = new byte[in.available()];
+					in.read(recipe_pic);
+					in.close();
+				} else {
+					errorMsgs.add("請上傳食譜圖片");
+				}	
+				
+				String[] ingredientsStr =req.getParameterValues("ingredients");
+				String[] quantityStr =req.getParameterValues("quantity");
 				
 				if(recipe_name==null || recipe_name.isEmpty()){
 					errorMsgs.add("食譜名稱不能為空白");
@@ -191,19 +223,56 @@ public class RecipeServlet extends HttpServlet {
 				if(recipe_intro==null || recipe_intro.isEmpty()){
 					errorMsgs.add("食譜簡介不能為空白");
 				}
-				if(food_mater==null || food_mater.isEmpty()){
-					errorMsgs.add("食材不能為空白");
+				for(int i =0;i<ingredientsStr.length;i++){
+					if(ingredientsStr[i].isEmpty() ){
+						errorMsgs.add("食材不能為空白");
+						break;
+					}
 				}
+				for(int i =0;i<ingredientsStr.length;i++){
+					if(quantityStr[i].isEmpty()){
+						errorMsgs.add("食材數量不能為空白");
+						break;
+					}
+				}
+				
+				
+				
+				
+				StringBuffer str = new StringBuffer();
+				List ingredients = new ArrayList();
+				List quantity = new ArrayList();
+				
+				try
+				{
+					str.append(ingredientsStr[0]+"-"+quantityStr[0]);
+					ingredients.add(ingredientsStr[0]);
+					quantity.add(quantityStr[0]);
+					for(int i =1;i<ingredientsStr.length;i++){
+						str.append("+"+ingredientsStr[i]+"-"+quantityStr[i]); 
+						ingredients.add(ingredientsStr[i]);
+						quantity.add(quantityStr[i]);
+					}
+				} catch (IndexOutOfBoundsException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				String food_mater = new String(str);
 				
 				RecipeVO recipeVO = new RecipeVO();
 				recipeVO.setMem_no(mem_no);
 				recipeVO.setRecipe_name(recipe_name);
 				recipeVO.setRecipe_intro(recipe_intro);
-				recipeVO.setFood_mater(food_mater);
+				recipeVO.setRecipe_pic(recipe_pic);
+				
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("recipeVO", recipeVO); 
+					req.setAttribute("ingredients", ingredients); 
+					req.setAttribute("quantity", quantity); 
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/front-end/recipe/addRecipe.jsp");
 					failureView.forward(req, res);
@@ -212,7 +281,7 @@ public class RecipeServlet extends HttpServlet {
 				
 				/***************************2.開始新增資料***************************************/
 				RecipeService recipeSvc = new RecipeService();
-				recipeVO = recipeSvc.addRecipe(mem_no,recipe_name,recipe_intro,food_mater);
+				recipeVO = recipeSvc.addRecipe(mem_no,recipe_name,recipe_intro,food_mater,recipe_pic);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/front-end/recipe/listAllRecipe.jsp";
@@ -448,5 +517,15 @@ public class RecipeServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+	}
+	public String getFileNameFromPart(Part part) {
+		String header = part.getHeader("content-disposition");
+		System.out.println("header=" + header); // 測試用
+		String filename = new File(header.substring(header.lastIndexOf("=") + 2, header.length() - 1)).getName();
+//		System.out.println("filename=" + filename); // 測試用
+		if (filename.length() == 0) {
+			return null;
+		}
+		return filename;
 	}
 }
