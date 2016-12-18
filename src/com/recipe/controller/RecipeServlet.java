@@ -48,7 +48,7 @@ public class RecipeServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/recipe/select_page.jsp");
+							.getRequestDispatcher("/front-end/recipe/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -61,14 +61,14 @@ public class RecipeServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/recipe/select_page.jsp");
+							.getRequestDispatcher("/front-end/recipe/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("recipeVO", recipeVO); // 資料庫取出的empVO物件,存入req
-				String url = "/recipe/listOneRecipe.jsp";
+				String url = "/front-end/recipe/listOneRecipe.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -76,7 +76,7 @@ public class RecipeServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/recipe/select_page.jsp");
+						.getRequestDispatcher("/front-end/recipe/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -99,7 +99,7 @@ public class RecipeServlet extends HttpServlet {
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("recipeVO", recipeVO);         // 資料庫取出的empVO物件,存入req
-				String url = "/recipe/update_recipe_input.jsp";
+				String url = "/front-end/recipe/update_recipe_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_emp_input.jsp
 				successView.forward(req, res);
 
@@ -107,7 +107,7 @@ public class RecipeServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/recipe/listAllEmp.jsp");
+						.getRequestDispatcher("/front-end/recipe/listAllEmp.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -148,7 +148,7 @@ public class RecipeServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("recipeVO", recipeVO);
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/recipe/update_recipe_input.jsp");
+							.getRequestDispatcher("/front-end/recipe/update_recipe_input.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -159,7 +159,7 @@ public class RecipeServlet extends HttpServlet {
 				recipeVO = recipeSvc.getOneRecipe(recipe_no);
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("recipeVO", recipeVO); 
-				String url = "/recipe/listOneRecipe.jsp";
+				String url = "/front-end/recipe/listOneRecipe.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -167,7 +167,7 @@ public class RecipeServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/emp/update_recipe_input.jsp");
+						.getRequestDispatcher("/front-end/recipe/update_recipe_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -207,7 +207,7 @@ public class RecipeServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("recipeVO", recipeVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/recipe/addRecipe.jsp");
+							.getRequestDispatcher("/front-end/recipe/addRecipe.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -217,7 +217,7 @@ public class RecipeServlet extends HttpServlet {
 				recipeVO = recipeSvc.addRecipe(mem_no,recipe_name,recipe_intro,food_mater);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/recipe/listAllRecipe.jsp";
+				String url = "/front-end/recipe/listAllRecipe.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);				
 				
@@ -225,7 +225,7 @@ public class RecipeServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/recipe/addRecipe.jsp");
+						.getRequestDispatcher("/front-end/recipe/addRecipe.jsp");
 				failureView.forward(req, res);
 			}
 		}
