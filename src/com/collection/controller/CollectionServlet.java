@@ -62,7 +62,7 @@ public class CollectionServlet extends HttpServlet {
 				
 				/***************************2.開始查詢資料*****************************************/
 				CollectionService collectionSvc = new CollectionService();
-				CollectionVO collectionVO = collectionSvc.getOneCollection(coll_no);
+				CollectionVO collectionVO = collectionSvc.getOneCollection(coll_no.toUpperCase());
 				if (collectionVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -126,7 +126,7 @@ public class CollectionServlet extends HttpServlet {
 				
 				/***************************2.開始查詢資料*****************************************/
 				CollectionService collectionSvc = new CollectionService();
-				List collectionVO = collectionSvc.getAllByMem_noCollection(mem_no);
+				List collectionVO = collectionSvc.getAllByMem_noCollection(mem_no.toUpperCase());
 				if (collectionVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -183,7 +183,7 @@ public class CollectionServlet extends HttpServlet {
 				
 				/***************************2.開始新增資料***************************************/
 				CollectionService collectionSvc = new CollectionService();
-				collectionVO = collectionSvc.addCollection(mem_no, all_no, class_no);
+				collectionVO = collectionSvc.addCollection(mem_no.toUpperCase(), all_no.toUpperCase(), class_no.toUpperCase());
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/front-end/collection/listAllCollection.jsp";
@@ -212,7 +212,7 @@ public class CollectionServlet extends HttpServlet {
 				
 				/***************************2.開始刪除資料***************************************/
 				CollectionService collectionSvc = new CollectionService();
-				collectionSvc.deleteCollection(coll_no);
+				collectionSvc.deleteCollection(coll_no.toUpperCase());
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
 				String url = "/front-end/collection/listAllCollection.jsp";
@@ -241,7 +241,7 @@ public class CollectionServlet extends HttpServlet {
 				
 				/***************************2.開始查詢資料****************************************/
 				CollectionService collectionSvc = new CollectionService();
-				CollectionVO collectionVO = collectionSvc.getOneCollection(coll_no);
+				CollectionVO collectionVO = collectionSvc.getOneCollection(coll_no.toUpperCase());
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("collectionVO", collectionVO);         // 資料庫取出的collectionVO物件,存入req
@@ -289,7 +289,7 @@ public class CollectionServlet extends HttpServlet {
 				
 				/***************************2.開始修改資料*****************************************/
 				CollectionService collectionSvc = new CollectionService();
-				collectionVO = collectionSvc.updateCollection(coll_no, mem_no, all_no, class_no);
+				collectionVO = collectionSvc.updateCollection(coll_no.toUpperCase(), mem_no.toUpperCase(), all_no.toUpperCase(), class_no.toUpperCase());
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("collectionVO", collectionVO); // 資料庫update成功後,正確的的collectionVO物件,存入req

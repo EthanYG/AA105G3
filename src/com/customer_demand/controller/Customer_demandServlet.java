@@ -63,7 +63,7 @@ public class Customer_demandServlet extends HttpServlet{
 				
 				/***************************2.開始查詢資料*****************************************/
 				Customer_demandService customer_demandSvc = new Customer_demandService();
-				Customer_demandVO customer_demandVO = customer_demandSvc.getOneCustomer_demand(cusde_no);
+				Customer_demandVO customer_demandVO = customer_demandSvc.getOneCustomer_demand(cusde_no.toUpperCase());
 				if (customer_demandVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -127,7 +127,7 @@ public class Customer_demandServlet extends HttpServlet{
 				
 				/***************************2.開始查詢資料*****************************************/
 				Customer_demandService customer_demandSvc = new Customer_demandService();
-				List customer_demandVO = customer_demandSvc.getAllByMem_noCustomer_demand(mem_no);
+				List customer_demandVO = customer_demandSvc.getAllByMem_noCustomer_demand(mem_no.toUpperCase());
 				if (customer_demandVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -202,7 +202,7 @@ public class Customer_demandServlet extends HttpServlet{
 				
 				/***************************2.開始新增資料***************************************/
 				Customer_demandService customer_demandSvc = new Customer_demandService();
-				customer_demandVO = customer_demandSvc.addCustomer_demand(mem_no, cusde_detail, cusde_date, cusde_create_date, cusde_title);
+				customer_demandVO = customer_demandSvc.addCustomer_demand(mem_no.toUpperCase(), cusde_detail, cusde_date, cusde_create_date, cusde_title);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/front-end/customer_demand/listAllCustomer_demand.jsp";
@@ -231,7 +231,7 @@ public class Customer_demandServlet extends HttpServlet{
 				
 				/***************************2.開始刪除資料***************************************/
 				Customer_demandService customer_demandSvc = new Customer_demandService();
-				customer_demandSvc.deleteCustomer_demand(cusde_no);
+				customer_demandSvc.deleteCustomer_demand(cusde_no.toUpperCase());
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
 				String url = "/front-end/customer_demand/listAllCustomer_demand.jsp";
@@ -260,7 +260,7 @@ public class Customer_demandServlet extends HttpServlet{
 				
 				/***************************2.開始查詢資料****************************************/
 				Customer_demandService customer_demandSvc = new Customer_demandService();
-				Customer_demandVO customer_demandVO = customer_demandSvc.getOneCustomer_demand(cusde_no);
+				Customer_demandVO customer_demandVO = customer_demandSvc.getOneCustomer_demand(cusde_no.toUpperCase());
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("customer_demandVO", customer_demandVO);         // 資料庫取出的customer_demandVO物件,存入req
@@ -326,7 +326,7 @@ public class Customer_demandServlet extends HttpServlet{
 				
 				/***************************2.開始修改資料*****************************************/
 				Customer_demandService customer_demandSvc = new Customer_demandService();
-				customer_demandVO = customer_demandSvc.updateCustomer_demand(cusde_no, mem_no, cusde_detail, cusde_date, cusde_create_date, cusde_title);
+				customer_demandVO = customer_demandSvc.updateCustomer_demand(cusde_no.toUpperCase(), mem_no.toUpperCase(), cusde_detail, cusde_date, cusde_create_date, cusde_title);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("customer_demandVO", customer_demandVO); // 資料庫update成功後,正確的的customer_demandVO物件,存入req

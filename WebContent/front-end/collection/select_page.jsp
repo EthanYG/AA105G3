@@ -40,7 +40,7 @@
 <h5>單一查詢:</h5>  
   <li>
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/collection/collection.do" >
-        <b>輸入我的最愛編號 (如c01(暫定)):</b>
+        <b>輸入我的最愛編號 (如CO1(暫定)):</b>
         <input type="text" name="coll_no">
         <input type="submit" value="送出">
         <input type="hidden" name="action" value="getOne_For_Display">

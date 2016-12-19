@@ -63,7 +63,7 @@ public class Frd_listServlet extends HttpServlet {
 				
 				/***************************2.開始查詢資料*****************************************/
 				Frd_listService frd_listSvc = new Frd_listService();
-				Frd_listVO frd_listVO = frd_listSvc.getOneFrd_list(mem_no);
+				Frd_listVO frd_listVO = frd_listSvc.getOneFrd_list(mem_no.toUpperCase());
 				if (frd_listVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -127,7 +127,7 @@ public class Frd_listServlet extends HttpServlet {
 				
 				/***************************2.開始查詢資料*****************************************/
 				Frd_listService frd_listSvc = new Frd_listService();
-				List frd_listVO = frd_listSvc.getAllByMem_noFrd_list(mem_no);
+				List frd_listVO = frd_listSvc.getAllByMem_noFrd_list(mem_no.toUpperCase());
 				if (frd_listVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -184,7 +184,7 @@ public class Frd_listServlet extends HttpServlet {
 				
 				/***************************2.開始新增資料***************************************/
 				Frd_listService frd_listSvc = new Frd_listService();
-				frd_listVO = frd_listSvc.addFrd_list(mem_no, friend_no, friend_chk);
+				frd_listVO = frd_listSvc.addFrd_list(mem_no.toUpperCase(), friend_no.toUpperCase(), friend_chk);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/front-end/frd_list/listAllFrd_list.jsp";
@@ -213,7 +213,7 @@ public class Frd_listServlet extends HttpServlet {
 				
 				/***************************2.開始刪除資料***************************************/
 				Frd_listService frd_listSvc = new Frd_listService();
-				frd_listSvc.deleteFrd_list(mem_no);
+				frd_listSvc.deleteFrd_list(mem_no.toUpperCase());
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
 				String url = "/front-end/frd_list/listAllFrd_list.jsp";
@@ -242,8 +242,8 @@ public class Frd_listServlet extends HttpServlet {
 				String friend_no = new String(req.getParameter("friend_no"));
 				
 				Frd_listVO frd_listVO = new Frd_listVO();
-				frd_listVO.setMem_no(mem_no);
-				frd_listVO.setFriend_no(friend_no);
+				frd_listVO.setMem_no(mem_no.toUpperCase());
+				frd_listVO.setFriend_no(friend_no.toUpperCase());
 				
 				/***************************2.開始刪除資料***************************************/
 				Frd_listService frd_listSvc = new Frd_listService();
@@ -284,7 +284,7 @@ public class Frd_listServlet extends HttpServlet {
 				Frd_listService frd_listSvc = new Frd_listService();
 				
 //				dao.findByTwoPrimaryKey(mem_no, friend_no);
-				frd_listVO = frd_listSvc.findByTwoPrimaryKey(mem_no, friend_no);
+				frd_listVO = frd_listSvc.findByTwoPrimaryKey(mem_no.toUpperCase(), friend_no.toUpperCase());
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("frd_listVO", frd_listVO);         // 資料庫取出的frd_listVO物件,存入req
@@ -330,7 +330,7 @@ public class Frd_listServlet extends HttpServlet {
 				
 				/***************************2.開始修改資料*****************************************/
 				Frd_listService frd_listSvc = new Frd_listService();
-				frd_listVO = frd_listSvc.updateFrd_list(mem_no, friend_no, friend_chk);
+				frd_listVO = frd_listSvc.updateFrd_list(mem_no.toUpperCase(), friend_no.toUpperCase(), friend_chk);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("frd_listVO", frd_listVO); // 資料庫update成功後,正確的的frd_listVO物件,存入req
