@@ -82,5 +82,14 @@
 		<servlet-name>Frd_listServlet</servlet-name>
 		<url-pattern>/frd_list/frd_list.do</url-pattern>
 	</servlet-mapping>
+	<!--會員註冊 -->
+	<servlet>
+		<servlet-name>MemberServlet</servlet-name>
+		<servlet-class>com.member.controller.MemberServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MemberServlet</servlet-name>
+		<url-pattern>/member/member.do</url-pattern>
+	</servlet-mapping>
 
 </web-app>
