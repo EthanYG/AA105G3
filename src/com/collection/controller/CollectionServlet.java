@@ -41,7 +41,7 @@ public class CollectionServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/collection/select_page.jsp");
+							.getRequestDispatcher("/front-end/collection/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -55,7 +55,7 @@ public class CollectionServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/collection/select_page.jsp");
+							.getRequestDispatcher("/front-end/collection/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -69,14 +69,14 @@ public class CollectionServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/collection/select_page.jsp");
+							.getRequestDispatcher("/front-end/collection/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("collectionVO", collectionVO); // 資料庫取出的collectionVO物件,存入req
-				String url = "/collection/listOneCollection.jsp";
+				String url = "/front-end/collection/listOneCollection.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneCollection.jsp
 				successView.forward(req, res);
 
@@ -84,7 +84,7 @@ public class CollectionServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/collection/select_page.jsp");
+						.getRequestDispatcher("/front-end/collection/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -105,7 +105,7 @@ public class CollectionServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/collection/select_page.jsp");
+							.getRequestDispatcher("/front-end/collection/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -119,7 +119,7 @@ public class CollectionServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/collection/select_page.jsp");
+							.getRequestDispatcher("/front-end/collection/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -133,14 +133,14 @@ public class CollectionServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/collection/select_page.jsp");
+							.getRequestDispatcher("/front-end/collection/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("collectionVO", collectionVO); // 資料庫取出的collectionVO物件,存入req
-				String url = "/collection/listAllByMem_noCollection.jsp";
+				String url = "/front-end/collection/listAllByMem_noCollection.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listAllByMem_noCollection.jsp
 				successView.forward(req, res);
 
@@ -148,7 +148,7 @@ public class CollectionServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/collection/select_page.jsp");
+						.getRequestDispatcher("/front-end/collection/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -176,7 +176,7 @@ public class CollectionServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("collectionVO", collectionVO); // 含有輸入格式錯誤的collectionVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/collection/addCollection.jsp");
+							.getRequestDispatcher("/front-end/collection/addCollection.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -186,7 +186,7 @@ public class CollectionServlet extends HttpServlet {
 				collectionVO = collectionSvc.addCollection(mem_no, all_no, class_no);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/collection/listAllCollection.jsp";
+				String url = "/front-end/collection/listAllCollection.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);				
 				
@@ -194,7 +194,7 @@ public class CollectionServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/collection/addCollection.jsp");
+						.getRequestDispatcher("/front-end/collection/addCollection.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -215,7 +215,7 @@ public class CollectionServlet extends HttpServlet {
 				collectionSvc.deleteCollection(coll_no);
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
-				String url = "/collection/listAllCollection.jsp";
+				String url = "/front-end/collection/listAllCollection.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 				
@@ -223,7 +223,7 @@ public class CollectionServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/collection/listAllCollection.jsp");
+						.getRequestDispatcher("/front-end/collection/listAllCollection.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -245,7 +245,7 @@ public class CollectionServlet extends HttpServlet {
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("collectionVO", collectionVO);         // 資料庫取出的collectionVO物件,存入req
-				String url = "/collection/update_collection_input.jsp";
+				String url = "/front-end/collection/update_collection_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_collection_input.jsp
 				successView.forward(req, res);
 
@@ -253,7 +253,7 @@ public class CollectionServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/collection/listAllCollection.jsp");
+						.getRequestDispatcher("/front-end/collection/listAllCollection.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -282,7 +282,7 @@ public class CollectionServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("collectionVO", collectionVO); // 含有輸入格式錯誤的collectionVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/collection/update_collection_input.jsp");
+							.getRequestDispatcher("/front-end/collection/update_collection_input.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -293,7 +293,7 @@ public class CollectionServlet extends HttpServlet {
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("collectionVO", collectionVO); // 資料庫update成功後,正確的的collectionVO物件,存入req
-				String url = "/collection/listOneCollection.jsp";
+				String url = "/front-end/collection/listOneCollection.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -301,7 +301,7 @@ public class CollectionServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/collection/update_collection_input.jsp");
+						.getRequestDispatcher("/front-end/collection/update_collection_input.jsp");
 				failureView.forward(req, res);
 			}
 		}

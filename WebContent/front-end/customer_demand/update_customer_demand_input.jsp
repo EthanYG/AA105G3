@@ -17,7 +17,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>客戶需求資料修改 - update_customer_demand_input.jsp</h3>
-		<a href="select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
+		<a href="<%=request.getContextPath()%>/front-end//customer_demand/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
 	</tr>
 </table>
 
@@ -33,7 +33,7 @@
 	</font>
 </c:if>
 
-<FORM METHOD="post" ACTION="customer_demand.do" name="form1">
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/customer_demand/customer_demand.do" name="form1">
 <table border="0">
 	<tr>
 		<td>客戶需求編號:<font color=red><b>*</b></font></td>

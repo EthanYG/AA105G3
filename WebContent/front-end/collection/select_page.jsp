@@ -29,7 +29,7 @@
   <li><a href='listAllCollection.jsp'>List</a> all Collections. </li> <br><br>
   
   <li>
-  	<FORM METHOD="post" ACTION="collection.do" >
+  	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/collection/collection.do" >
         <b>輸入會員編號 (如M00000001):</b>
         <input type="text" name="mem_no">
         <input type="submit" value="送出">
@@ -39,7 +39,7 @@
 
 <h5>單一查詢:</h5>  
   <li>
-    <FORM METHOD="post" ACTION="collection.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/collection/collection.do" >
         <b>輸入我的最愛編號 (如c01(暫定)):</b>
         <input type="text" name="coll_no">
         <input type="submit" value="送出">
@@ -50,7 +50,7 @@
   <jsp:useBean id="collectionSvc" scope="page" class="com.collection.model.CollectionService" />
    
   <li>
-     <FORM METHOD="post" ACTION="collection.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/collection/collection.do" >
        <b>選擇我的最愛編號:</b>
        <select size="1" name="coll_no">
          <c:forEach var="collectionVO" items="${collectionSvc.all}" > 

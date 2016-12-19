@@ -42,7 +42,7 @@ public class Frd_listServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frd_list/select_page.jsp");
+							.getRequestDispatcher("/front-end/frd_list/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -56,7 +56,7 @@ public class Frd_listServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frd_list/select_page.jsp");
+							.getRequestDispatcher("/front-end/frd_list/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -70,14 +70,14 @@ public class Frd_listServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frd_list/select_page.jsp");
+							.getRequestDispatcher("/front-end/frd_list/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("frd_listVO", frd_listVO); // 資料庫取出的frd_listVO物件,存入req
-				String url = "/frd_list/listOneFrd_list.jsp";
+				String url = "/front-end/frd_list/listOneFrd_list.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneFrd_list.jsp
 				successView.forward(req, res);
 
@@ -85,7 +85,7 @@ public class Frd_listServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frd_list/select_page.jsp");
+						.getRequestDispatcher("/front-end/frd_list/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -106,7 +106,7 @@ public class Frd_listServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frd_list/select_page.jsp");
+							.getRequestDispatcher("/front-end/frd_list/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -120,7 +120,7 @@ public class Frd_listServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frd_list/select_page.jsp");
+							.getRequestDispatcher("/front-end/frd_list/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -134,14 +134,14 @@ public class Frd_listServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frd_list/select_page.jsp");
+							.getRequestDispatcher("/front-end/frd_list/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("frd_listVO", frd_listVO); // 資料庫取出的frd_listVO物件,存入req
-				String url = "/frd_list/listAllByMem_noFrd_list.jsp";
+				String url = "/front-end/frd_list/listAllByMem_noFrd_list.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listAllByMem_noFrd_list.jsp
 				successView.forward(req, res);
 
@@ -149,7 +149,7 @@ public class Frd_listServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frd_list/select_page.jsp");
+						.getRequestDispatcher("/front-end/frd_list/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -177,7 +177,7 @@ public class Frd_listServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("frd_listVO", frd_listVO); // 含有輸入格式錯誤的frd_listVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frd_list/addFrd_list.jsp");
+							.getRequestDispatcher("/front-end/frd_list/addFrd_list.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -187,7 +187,7 @@ public class Frd_listServlet extends HttpServlet {
 				frd_listVO = frd_listSvc.addFrd_list(mem_no, friend_no, friend_chk);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/frd_list/listAllFrd_list.jsp";
+				String url = "/front-end/frd_list/listAllFrd_list.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);				
 				
@@ -195,7 +195,7 @@ public class Frd_listServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frd_list/addFrd_list.jsp");
+						.getRequestDispatcher("/front-end/frd_list/addFrd_list.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -216,7 +216,7 @@ public class Frd_listServlet extends HttpServlet {
 				frd_listSvc.deleteFrd_list(mem_no);
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
-				String url = "/frd_list/listAllFrd_list.jsp";
+				String url = "/front-end/frd_list/listAllFrd_list.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 				
@@ -224,7 +224,7 @@ public class Frd_listServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frd_list/listAllFrd_list.jsp");
+						.getRequestDispatcher("/front-end/frd_list/listAllFrd_list.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -250,7 +250,7 @@ public class Frd_listServlet extends HttpServlet {
 				frd_listSvc.deleteOneFrd_list(frd_listVO);
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
-				String url = "/frd_list/listAllFrd_list.jsp";
+				String url = "/front-end/frd_list/listAllFrd_list.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 				
@@ -258,7 +258,7 @@ public class Frd_listServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frd_list/listAllFrd_list.jsp");
+						.getRequestDispatcher("/front-end/frd_list/listAllFrd_list.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -288,7 +288,7 @@ public class Frd_listServlet extends HttpServlet {
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("frd_listVO", frd_listVO);         // 資料庫取出的frd_listVO物件,存入req
-				String url = "/frd_list/update_frd_list_input.jsp";
+				String url = "/front-end/frd_list/update_frd_list_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_frd_list_input.jsp
 				successView.forward(req, res);
 
@@ -296,7 +296,7 @@ public class Frd_listServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frd_list/listAllFrd_list.jsp");
+						.getRequestDispatcher("/front-end/frd_list/listAllFrd_list.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -323,7 +323,7 @@ public class Frd_listServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("frd_listVO", frd_listVO); // 含有輸入格式錯誤的frd_listVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frd_list/update_frd_list_input.jsp");
+							.getRequestDispatcher("/front-end/frd_list/update_frd_list_input.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -334,8 +334,8 @@ public class Frd_listServlet extends HttpServlet {
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("frd_listVO", frd_listVO); // 資料庫update成功後,正確的的frd_listVO物件,存入req
-				String url = "/frd_list/listOneFrd_list.jsp";
-//				String url = "/frd_list/listAllFrd_list.jsp";
+				String url = "/front-end/frd_list/listOneFrd_list.jsp";
+//				String url = "/front-end/frd_list/listAllFrd_list.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -343,7 +343,7 @@ public class Frd_listServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frd_list/update_frd_list_input.jsp");
+						.getRequestDispatcher("/front-end/frd_list/update_frd_list_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
