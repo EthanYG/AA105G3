@@ -163,6 +163,7 @@ insert into recipe_cont values ('R00000001',3,null,'鑄鐵鍋中放少許油，�
 insert into recipe_cont values ('R00000001',4,null,'將洋蔥撥到一邊，空出來的地方放入肉塊，讓兩面煎熟。');
 insert into recipe_cont values ('R00000001',5,null,'放入紅蘿蔔翻炒一下，再加入醬汁中所有的材料，翻動一下讓醬汁均勻，蓋上鍋蓋煮約10分鐘。');
 
+
 insert into recipe_cont values ('R00000002',1,null,'白蘿蔔切塊; 雞肉(雞胸久煮易乾柴, 不適紅燒,其它部位都可以)切塊; 香菇泡水泡軟');
 insert into recipe_cont values ('R00000002',2,null,'取一炒鍋, 加入2大匙油、雞肉、老薑片中火煎至雞肉由紅轉白 (因為蘿蔔較吃油, 所以煎過雞肉的油就不倒出留在鍋內了, 不喜歡太油的朋友可以將多餘的油倒出另做它用)');
 insert into recipe_cont values ('R00000002',3,null,'加入調味料大火煮滾');

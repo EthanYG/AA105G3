@@ -461,7 +461,7 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 		
 		//insert
 		
-//		File pic = new File("images/recipe","1.jpg");
+//		File pic = new File("WebContent/images/recipe","1.jpg");
 //		InputStream fis = new FileInputStream(pic);
 //		byte[] buffer = new byte[fis.available()];
 //		
