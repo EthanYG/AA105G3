@@ -42,7 +42,7 @@
      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
        <b>選擇食譜編號:</b>
        <select size="1" name="recipe_no">
-         <c:forEach var="recipeVO" items="${recipeSvc.all}" > 
+         <c:forEach var="recipeVO" items="${recipeSvc.all[0]}" > 
           <option value="${recipeVO.recipe_no}">${recipeVO.recipe_no}
          </c:forEach>   
        </select>
@@ -55,7 +55,7 @@
      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
        <b>選擇食譜名稱:</b>
        <select size="1" name="recipe_no">
-         <c:forEach var="recipeVO" items="${recipeSvc.all}" > 
+         <c:forEach var="recipeVO" items="${recipeSvc.all[0]}" > 
           <option value="${recipeVO.recipe_no}">${recipeVO.recipe_name}
          </c:forEach>   
        </select>
@@ -68,7 +68,7 @@
      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
        <b>選擇食譜編號修改人氣:</b>
        <select size="1" name="recipe_no">
-         <c:forEach var="recipeVO" items="${recipeSvc.all}" > 
+         <c:forEach var="recipeVO" items="${recipeSvc.all[0]}" > 
           <option value="${recipeVO.recipe_no}">${recipeVO.recipe_no}
          </c:forEach>   
        </select>
@@ -81,12 +81,12 @@
      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do" >
        <b>選擇食譜編號修改Like數:</b>
        <select size="1" name="recipe_no">
-         <c:forEach var="recipeVO" items="${recipeSvc.all}" > 
+         <c:forEach var="recipeVO" items="${recipeSvc.all[0]}" > 
           <option value="${recipeVO.recipe_no}">${recipeVO.recipe_no}
          </c:forEach>   
        </select>
        <input type="submit" value="送出">
-       <input type="hidden" name="action" value="getOne_For_Display">
+       <input type="hidden" name="action" value="getOne_For_UpdateLike">
     </FORM>
   </li>
 </ul>
@@ -96,6 +96,11 @@
 
 <ul>
   <li><a href='addRecipe.jsp'>Add</a> a new Recipe.</li>
+  <li>
+  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/recipe/recipe.do">
+			    <input type="submit" value="將周人氣歸零">
+			    <input type="hidden" name="action"value="recipe_week_viewsZero"></FORM>
+	</li>	
 </ul>
 
 </body>

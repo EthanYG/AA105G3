@@ -1,5 +1,6 @@
 package com.recipe.model;
 
+import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,23 +19,24 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 	String psw = "foodtime";
 
 	private static final String INSERT_STMT = 
-			"INSERT INTO  recipe (recipe_no,mem_no,recipe_name,recipe_intro,food_mater) "
-			+ "VALUES ('R'||lpad(recipe_seq.NEXTVAL,8,0),?,?,?,?)";
+			"INSERT INTO  recipe (recipe_no,mem_no,recipe_name,recipe_intro,food_mater,recipe_pic) "
+			+ "VALUES ('R'||lpad(recipe_seq.NEXTVAL,8,0),?,?,?,?,?)";
 	private static final String Get_ALL_STMT = 
-			"select recipe_no,mem_no,recipe_name,recipe_intro,food_mater,recipe_like,recipe_total_views"
+			"select recipe_no,mem_no,recipe_name,recipe_intro,food_mater,recipe_pic,recipe_like,recipe_total_views"
 			+ ",recipe_week_views,recipe_time from recipe order by recipe_no";
 	private static final String GET_ONE_STMT = 
-			"select recipe_no,mem_no,recipe_name,recipe_intro,food_mater,recipe_like,recipe_total_views"
+			"select recipe_no,mem_no,recipe_name,recipe_intro,food_mater,recipe_pic,recipe_like,recipe_total_views"
 			+ ",recipe_week_views,recipe_time from recipe where recipe_no = ?";
 	private static final String DELETE = 
 			"DELETE FROM recipe where recipe_no = ?";
 	private static final String UPDATE = 
-			"UPDATE recipe set recipe_name=?,recipe_intro=?,food_mater=?,recipe_time=sysdate where recipe_no = ?";
+			"UPDATE recipe set recipe_name=?,recipe_intro=?,food_mater=?,recipe_pic=?,recipe_time=sysdate where recipe_no = ?";
 	private static final String UPDATEVIEWS = 
 			"UPDATE recipe set recipe_total_views=?,recipe_week_views=? where recipe_no = ?";
 	private static final String UPDATELIKE =
 			"UPDATE recipe set recipe_like=? where recipe_no = ?";
-			
+	private static final String WeekViewsZero =
+			"UPDATE recipe set recipe_week_views = 0 where recipe_no = ?";
 			
 	
 	@Override
@@ -50,10 +52,16 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 			con = DriverManager.getConnection(url, userid, psw);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
+			byte[] recipe_pic = recipeVO.getRecipe_pic();
+			long piclen = recipe_pic.length;
+			InputStream bais = new ByteArrayInputStream(recipe_pic);
+
+			
 			pstmt.setString(1, recipeVO.getMem_no());
 			pstmt.setString(2, recipeVO.getRecipe_name());
 			pstmt.setString(3, recipeVO.getRecipe_intro());
 			pstmt.setString(4, recipeVO.getFood_mater());
+			pstmt.setBinaryStream(5, bais, piclen);
 
 			
 			pstmt.executeUpdate();
@@ -99,7 +107,10 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 		PreparedStatement pstmt = null;
 
 		try {
-
+			byte[] recipe_pic = recipeVO.getRecipe_pic();
+			long piclen = recipe_pic.length;
+			InputStream bais = new ByteArrayInputStream(recipe_pic);
+			
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, psw);
 			pstmt = con.prepareStatement(UPDATE);
@@ -107,7 +118,8 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 			pstmt.setString(1, recipeVO.getRecipe_name());
 			pstmt.setString(2, recipeVO.getRecipe_intro());
 			pstmt.setString(3, recipeVO.getFood_mater());
-			pstmt.setString(4, recipeVO.getRecipe_no());
+			pstmt.setBinaryStream(4, bais, piclen);
+			pstmt.setString(5, recipeVO.getRecipe_no());
 			
 
 			pstmt.executeUpdate();
@@ -210,6 +222,7 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 				recipeVO.setRecipe_name(rs.getString("recipe_name"));
 				recipeVO.setRecipe_intro(rs.getString("recipe_intro"));
 				recipeVO.setFood_mater(rs.getString("food_mater"));
+				recipeVO.setRecipe_pic(rs.getBytes("recipe_pic"));
 				recipeVO.setRecipe_like(rs.getInt("recipe_like"));
 				recipeVO.setRecipe_total_views(rs.getInt("recipe_total_views"));
 				recipeVO.setRecipe_week_views(rs.getInt("recipe_week_views"));
@@ -277,6 +290,7 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 				recipeVO.setRecipe_name(rs.getString("recipe_name"));
 				recipeVO.setRecipe_intro(rs.getString("recipe_intro"));
 				recipeVO.setFood_mater(rs.getString("food_mater"));
+				recipeVO.setRecipe_pic(rs.getBytes("recipe_pic"));
 				recipeVO.setRecipe_like(rs.getInt("recipe_like"));
 				recipeVO.setRecipe_total_views(rs.getInt("recipe_total_views"));
 				recipeVO.setRecipe_week_views(rs.getInt("recipe_week_views"));
@@ -401,18 +415,76 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 		}
 	}
 	
+	@Override
+	public void changeWeekViewsZero(String recipe_no)
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, psw);
+			pstmt = con.prepareStatement(WeekViewsZero);
+
+			pstmt.setString(1, recipe_no);
+			
+
+			pstmt.executeUpdate();
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 		RecipeJDBCDAO dao = new RecipeJDBCDAO();
 		
 		//insert
 		
+//		File pic = new File("images/recipe","1.jpg");
+//		InputStream fis = new FileInputStream(pic);
+//		byte[] buffer = new byte[fis.available()];
+//		
+//		RecipeVO recipeVO1 = new RecipeVO();
+//		recipeVO1.setMem_no("M00000004");
+//		recipeVO1.setRecipe_name("柳橙水果茶");
+//		recipeVO1.setRecipe_intro("在這寒冷的低溫裡，運用時令盛產的柳橙來泡壺暖呼呼的水果茶吧，以新鮮柳橙汁為基底，很是淡雅、舒服＾＾");
+//		recipeVO1.setFood_mater("錫蘭紅茶-2包+新鮮柳橙汁-100ml+水-300ml+砂糖（視喜愛甜度調整）-30g+喜愛的水果切丁-適量");
+//		recipeVO1.setRecipe_pic(buffer);
+//		
+//		dao.insert(recipeVO1);
+//		fis.close();
+		
 		//update
+//		File pic = new File("images/recipe","cat.jpg");
+//		InputStream fis = new FileInputStream(pic);
+//		byte[] buffer = new byte[fis.available()];
+//		
 //		RecipeVO recipeVO2 = new RecipeVO();
 //		recipeVO2.setRecipe_name("修改過的名字");
 //		recipeVO2.setRecipe_intro("修改過的簡介");
 //		recipeVO2.setFood_mater("食材1-100g+食材2-200g");
+//		recipeVO2.setRecipe_pic(buffer);
 //		recipeVO2.setRecipe_no("R00000002");
 //		
 //		dao.update(recipeVO2);
@@ -432,7 +504,9 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 //		recipeVO6.setRecipe_no("R00000004");
 //		dao.updateLike(recipeVO6);
 		
-		
+		//WeekViewsZero
+//		RecipeVO recipeVO7 = new RecipeVO();
+//		dao.changeWeekViewsZero("R00000002");
 		//delete
 //		dao.delete("R00000002");
 		
@@ -460,9 +534,12 @@ public class RecipeJDBCDAO implements RecipeDAO_interface
 		System.out.print(recipeVO4.getRecipe_total_views()+" | ");
 		System.out.print(recipeVO4.getRecipe_week_views()+" | ");
 		System.out.print(recipeVO4.getRecipe_time()+" | ");
+		System.out.print(recipeVO4.getRecipe_pic()+" | ");
 			System.out.println();
 		}
 	}
+
+	
 
 	
 }
