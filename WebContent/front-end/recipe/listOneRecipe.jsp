@@ -1,7 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.recipe.model.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <jsp:useBean id="recipeVO" scope="request" class="com.recipe.model.RecipeVO"/>
+<jsp:useBean id="ingredients" scope="request" class="java.util.ArrayList"/>
+<jsp:useBean id="quantity" scope="request" class="java.util.ArrayList"/>
 <html>
 <head>
 <title>食譜資料 - listOneRecipe.jsp</title>
@@ -34,15 +39,26 @@
 	</tr>
 	<tr align='center' valign='middle'>
 		<td>${recipeVO.recipe_no}</td>
-		<td>圖片</td>
+		<td>
+			<img src="<%=request.getContextPath()%>/recipe/ShowRecipe_pic.do?recipe_no=${recipeVO.recipe_no}" style="width:100px;"/>
+		</td>
 		<td>${recipeVO.mem_no}</td>
 		<td>${recipeVO.recipe_name}</td>
 		<td>${recipeVO.recipe_intro}</td>
-		<td>${recipeVO.food_mater}</td>
+		<td>
+			<c:forEach var="ingredient" items="${ingredients}" varStatus="s">
+				${ingredient}&nbsp; &nbsp;
+				${quantity[s.index]}<br>
+			</c:forEach>
+		</td>
 		<td>${recipeVO.recipe_like}</td>
 		<td>${recipeVO.recipe_total_views}</td>
 		<td>${recipeVO.recipe_week_views}</td>
-		<td>${recipeVO.recipe_time}</td>
+		<td>
+			<fmt:formatDate value="${recipeVO.recipe_time}" var="formattedDate" 
+                type="date" pattern="yyyy-MM-dd hh:mm:ss aa" />
+			${formattedDate}
+		</td>
 			
 	</tr>
 </table>

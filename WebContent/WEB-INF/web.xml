@@ -92,4 +92,7 @@
 		<url-pattern>/member/member.do</url-pattern>
 	</servlet-mapping>
 
+
+  
+ 
 </web-app>
