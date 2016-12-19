@@ -29,7 +29,7 @@
   <li><a href='listAllFrd_list.jsp'>List</a> all Frd_lists. </li> <br><br>
   
   <li>
-  	<FORM METHOD="post" ACTION="frd_list.do" >
+  	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frd_list/frd_list.do" >
         <b>輸入會員編號 (如M00000001):</b>
         <input type="text" name="mem_no">
         <input type="submit" value="送出">

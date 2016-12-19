@@ -13,7 +13,7 @@ Frd_listVO frd_listVO = (Frd_listVO) request.getAttribute("frd_listVO"); //Frd_l
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>好友資料 - ListOneFrd_list.jsp</h3>
-		<a href="select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
+		<a href="<%=request.getContextPath()%>/front-end/frd_list/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
 		</td>
 	</tr>
 </table>

@@ -42,7 +42,7 @@ public class Customer_demandServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/customer_demand/select_page.jsp");
+							.getRequestDispatcher("/front-end/customer_demand/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -56,7 +56,7 @@ public class Customer_demandServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/customer_demand/select_page.jsp");
+							.getRequestDispatcher("/front-end/customer_demand/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -70,14 +70,14 @@ public class Customer_demandServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/customer_demand/select_page.jsp");
+							.getRequestDispatcher("/front-end/customer_demand/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("customer_demandVO", customer_demandVO); // 資料庫取出的customer_demandVO物件,存入req
-				String url = "/customer_demand/listOneCustomer_demand.jsp";
+				String url = "/front-end/customer_demand/listOneCustomer_demand.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneCustomer_demand.jsp
 				successView.forward(req, res);
 
@@ -85,7 +85,7 @@ public class Customer_demandServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/customer_demand/select_page.jsp");
+						.getRequestDispatcher("/front-end/customer_demand/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -106,7 +106,7 @@ public class Customer_demandServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/customer_demand/select_page.jsp");
+							.getRequestDispatcher("/front-end/customer_demand/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -120,7 +120,7 @@ public class Customer_demandServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/customer_demand/select_page.jsp");
+							.getRequestDispatcher("/front-end/customer_demand/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -134,14 +134,14 @@ public class Customer_demandServlet extends HttpServlet{
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/customer_demand/select_page.jsp");
+							.getRequestDispatcher("/front-end/customer_demand/select_page.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("customer_demandVO", customer_demandVO); // 資料庫取出的customer_demandVO物件,存入req
-				String url = "/customer_demand/listAllByMem_noCustomer_demand.jsp";
+				String url = "/front-end/customer_demand/listAllByMem_noCustomer_demand.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listAllByMem_noCustomer_demand.jsp
 				successView.forward(req, res);
 
@@ -149,7 +149,7 @@ public class Customer_demandServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/customer_demand/select_page.jsp");
+						.getRequestDispatcher("/front-end/customer_demand/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -195,7 +195,7 @@ public class Customer_demandServlet extends HttpServlet{
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("customer_demandVO", customer_demandVO); // 含有輸入格式錯誤的customer_demandVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/customer_demand/addCustomer_demand.jsp");
+							.getRequestDispatcher("/front-end/customer_demand/addCustomer_demand.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -205,7 +205,7 @@ public class Customer_demandServlet extends HttpServlet{
 				customer_demandVO = customer_demandSvc.addCustomer_demand(mem_no, cusde_detail, cusde_date, cusde_create_date, cusde_title);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/customer_demand/listAllCustomer_demand.jsp";
+				String url = "/front-end/customer_demand/listAllCustomer_demand.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);				
 				
@@ -213,7 +213,7 @@ public class Customer_demandServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/customer_demand/addCustomer_demand.jsp");
+						.getRequestDispatcher("/front-end/customer_demand/addCustomer_demand.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -234,7 +234,7 @@ public class Customer_demandServlet extends HttpServlet{
 				customer_demandSvc.deleteCustomer_demand(cusde_no);
 				
 				/***************************3.刪除完成,準備轉交(Send the Success view)***********/								
-				String url = "/customer_demand/listAllCustomer_demand.jsp";
+				String url = "/front-end/customer_demand/listAllCustomer_demand.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 刪除成功後,轉交回送出刪除的來源網頁
 				successView.forward(req, res);
 				
@@ -242,7 +242,7 @@ public class Customer_demandServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/customer_demand/listAllCustomer_demand.jsp");
+						.getRequestDispatcher("/front-end/customer_demand/listAllCustomer_demand.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -264,7 +264,7 @@ public class Customer_demandServlet extends HttpServlet{
 								
 				/***************************3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("customer_demandVO", customer_demandVO);         // 資料庫取出的customer_demandVO物件,存入req
-				String url = "/customer_demand/update_customer_demand_input.jsp";
+				String url = "/front-end/customer_demand/update_customer_demand_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);// 成功轉交 update_customer_demand_input.jsp
 				successView.forward(req, res);
 
@@ -272,7 +272,7 @@ public class Customer_demandServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/customer_demand/listAllCustomer_demand.jsp");
+						.getRequestDispatcher("/front-end/customer_demand/listAllCustomer_demand.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -319,7 +319,7 @@ public class Customer_demandServlet extends HttpServlet{
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("customer_demandVO", customer_demandVO); // 含有輸入格式錯誤的customer_demandVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/customer_demand/update_customer_demand_input.jsp");
+							.getRequestDispatcher("/front-end/customer_demand/update_customer_demand_input.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -330,7 +330,7 @@ public class Customer_demandServlet extends HttpServlet{
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("customer_demandVO", customer_demandVO); // 資料庫update成功後,正確的的customer_demandVO物件,存入req
-				String url = "/customer_demand/listOneCustomer_demand.jsp";
+				String url = "/front-end/customer_demand/listOneCustomer_demand.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -338,7 +338,7 @@ public class Customer_demandServlet extends HttpServlet{
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/customer_demand/update_customer_demand_input.jsp");
+						.getRequestDispatcher("/front-end/customer_demand/update_customer_demand_input.jsp");
 				failureView.forward(req, res);
 			}
 		}

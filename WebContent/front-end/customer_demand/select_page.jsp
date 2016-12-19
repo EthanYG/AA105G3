@@ -29,7 +29,7 @@
   <li><a href='listAllCustomer_demand.jsp'>List</a> all Customer_demands. </li> <br><br>
   
   <li>
-  	<FORM METHOD="post" ACTION="customer_demand.do" >
+  	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/customer_demand/customer_demand.do" >
         <b>輸入會員編號 (如M00000001):</b>
         <input type="text" name="mem_no">
         <input type="submit" value="送出">
@@ -38,7 +38,7 @@
   </li> <br><br>
 <h5>查詢單一:</h5>  
   <li>
-    <FORM METHOD="post" ACTION="customer_demand.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/customer_demand/customer_demand.do" >
         <b>輸入客戶需求編號 (如CN1(暫定)):</b>
         <input type="text" name="cusde_no">
         <input type="submit" value="送出">
@@ -49,7 +49,7 @@
   <jsp:useBean id="customer_demandSvc" scope="page" class="com.customer_demand.model.Customer_demandService" />
    
   <li>
-     <FORM METHOD="post" ACTION="customer_demand.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/customer_demand/customer_demand.do" >
        <b>選擇客戶需求編號:</b>
        <select size="1" name="cusde_no">
          <c:forEach var="customer_demandVO" items="${customer_demandSvc.all}" > 

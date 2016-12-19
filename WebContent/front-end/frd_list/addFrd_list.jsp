@@ -20,7 +20,7 @@ Frd_listVO frd_listVO = (Frd_listVO) request.getAttribute("frd_listVO");
 		<h3>好友資料新增 - addFrd_list.jsp</h3>
 		</td>
 		<td>
-		   <a href="select_page.jsp"><img src="images/tomcat.gif" width="100" height="100" border="1">回首頁</a>
+		   <a href="<%=request.getContextPath()%>/front-end/frd_list/select_page.jsp"><img src="images/tomcat.gif" width="100" height="100" border="1">回首頁</a>
 	    </td>
 	</tr>
 </table>
@@ -37,7 +37,7 @@ Frd_listVO frd_listVO = (Frd_listVO) request.getAttribute("frd_listVO");
 	</font>
 </c:if>
 
-<FORM METHOD="post" ACTION="frd_list.do" name="form1">
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frd_list/frd_list.do" name="form1">
 <table border="0">
 
 	<tr>
