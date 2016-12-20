@@ -7,11 +7,8 @@
 
 <%
     RecipeService recipeSvc = new RecipeService();
-    List recipeList = recipeSvc.getAll();
-    List list = (ArrayList)recipeList.get(0);
-    Map map = (HashMap)recipeList.get(1);
+	List<RecipeVO> list = recipeSvc.getAll();
     pageContext.setAttribute("list",list);
-    pageContext.setAttribute("map",map);
 %>
 <%-- <jsp:useBean id="recipeSvc" class="com.recipe.model.RecipeService"/> --%>
 
@@ -66,12 +63,7 @@
 			<td>${recipeVO.mem_no}</td>
 			<td>${recipeVO.recipe_name}</td>
 			<td width="450">${recipeVO.recipe_intro}</td>
-			<td width="150">
-				<c:forEach var="ingredient" items="${map[recipeVO.recipe_no][0]}" varStatus="s">
-						${ingredient}&nbsp; &nbsp;
-						${map[recipeVO.recipe_no][1][s.index]}<br>
-				</c:forEach>
-			</td>
+			<td>${recipeVO.food_mater}</td>
 			<td>${recipeVO.recipe_like}</td>
 			<td>${recipeVO.recipe_total_views}</td>
 			<td>${recipeVO.recipe_week_views}</td>
