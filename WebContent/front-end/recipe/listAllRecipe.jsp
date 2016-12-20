@@ -61,7 +61,7 @@
 		<tr align='center' valign='middle'>
 			<td>${recipeVO.recipe_no}</td>
 			<td>
-				<img src="<%=request.getContextPath()%>/recipe/ShowRecipe_pic.do?recipe_no=${recipeVO.recipe_no}" style="width:100px;"/>
+				<img src="<%=request.getContextPath()%>/recipe/showRecipe_pic.do?recipe_no=${recipeVO.recipe_no}" style="width:100px;"/>
 			</td>
 			<td>${recipeVO.mem_no}</td>
 			<td>${recipeVO.recipe_name}</td>

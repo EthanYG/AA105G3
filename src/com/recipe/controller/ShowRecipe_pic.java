@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.recipe.model.*;
 
 
-@WebServlet("/recipe/ShowRecipe_pic.do")
+@WebServlet("/recipe/showRecipe_pic.do")
 public class ShowRecipe_pic extends HttpServlet {
 
 	
