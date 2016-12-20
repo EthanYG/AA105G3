@@ -41,4 +41,25 @@ public class Recipe_contVO
 		this.step_cont = step_cont;
 	}
 	
+	
+	public boolean equals(Object obj) {
+    	if (this == obj) return true;                     
+    	if(obj != null && getClass() == obj.getClass()) { 
+    		if(obj instanceof Recipe_contVO) {
+    			Recipe_contVO e = (Recipe_contVO)obj;
+                if (step.equals(step) && recipe_no.equals(e.recipe_no)) {  
+                    return true;
+                }
+        }
+    	}	    	
+
+    	return false;
+    }
+	
+	public int hashCode(){
+//      return this.ename.hashCode();               
+ 	  return new Integer(this.step).hashCode() + this.recipe_no.hashCode();  
+  	
+  }
+	
 }

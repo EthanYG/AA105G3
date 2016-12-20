@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.emp_auth.model.Emp_authJDBCDAO;
 import com.emp_auth.model.Emp_authVO;
@@ -37,6 +39,8 @@ public class Recipe_contJDBCDAO implements Recipe_contDAO_interface
 			"DELETE FROM recipe_cont where (recipe_no = ?) and (step = ?)";
 	private static final String UPDATE = 
 			"UPDATE recipe_cont set step_cont = ? ,step_pic = ? where (recipe_no = ?) and (step = ?)";
+	private static final String GET_ONE_STEP = 
+			"select recipe_no,step,step_pic,step_cont from recipe_cont where recipe_no = ? and step =?";
 	
 	@Override
 	public void insert(Recipe_contVO recipe_contVO)
@@ -239,12 +243,78 @@ public class Recipe_contJDBCDAO implements Recipe_contDAO_interface
 			}
 		}
 	}
-
+	
 	@Override
-	public List<Recipe_contVO> findByPrimaryKey(String recipe_no)
+	public Recipe_contVO getOneCont(String recipe_no, Integer step)
 	{
 		// TODO Auto-generated method stub
-		List<Recipe_contVO> list = new ArrayList<Recipe_contVO>();
+		Recipe_contVO recipe_contVO =null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		try
+		{
+			Class.forName(driver);
+			con = DriverManager.getConnection(url,userid,psw);
+			pstmt = con.prepareStatement(GET_ONE_STEP);
+			
+			pstmt.setString(1,recipe_no);
+			pstmt.setInt(2,step);
+			rs = pstmt.executeQuery();
+		
+			while(rs.next())
+			{
+			recipe_contVO = new Recipe_contVO();
+			recipe_contVO.setRecipe_no(rs.getString("recipe_no"));
+			recipe_contVO.setStep(rs.getInt("step"));
+			recipe_contVO.setStep_pic(rs.getBytes("step_pic"));
+			recipe_contVO.setStep_cont(rs.getString("step_cont"));
+			}
+			
+		} catch (ClassNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally
+		{
+			if(pstmt !=null)
+			{
+				try
+				{
+					pstmt.close();
+				} catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con !=null){
+				try
+				{
+					con.close();
+				} catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		
+		return recipe_contVO;
+	}
+
+	@Override
+	public Set<Recipe_contVO> findByPrimaryKey(String recipe_no)
+	{
+		// TODO Auto-generated method stub
+		Set<Recipe_contVO> set = new LinkedHashSet<Recipe_contVO>();
 		Recipe_contVO recipe_contVO =null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -266,7 +336,7 @@ public class Recipe_contJDBCDAO implements Recipe_contDAO_interface
 				recipe_contVO.setStep(rs.getInt("step"));
 				recipe_contVO.setStep_pic(rs.getBytes("step_pic"));
 				recipe_contVO.setStep_cont(rs.getString("step_cont"));
-				list.add(recipe_contVO);
+				set.add(recipe_contVO);
 			}
 		} catch (ClassNotFoundException e)
 		{
@@ -300,7 +370,7 @@ public class Recipe_contJDBCDAO implements Recipe_contDAO_interface
 				}
 			}
 		}
-		return list;
+		return set;
 	}
 
 	@Override
@@ -406,8 +476,8 @@ public class Recipe_contJDBCDAO implements Recipe_contDAO_interface
 //		dao.deleteOneStep("R00000001",6);
 		
 		//search target
-//		List<Recipe_contVO> list = dao.findByPrimaryKey("R00000001");
-//		for(Recipe_contVO recipe_contVO4: list){
+//		Set<Recipe_contVO> set = dao.findByPrimaryKey("R00000001");
+//		for(Recipe_contVO recipe_contVO4: set){
 //			System.out.print("| "+recipe_contVO4.getRecipe_no()+" | ");
 //			System.out.print(recipe_contVO4.getStep()+" | ");
 //			System.out.print(recipe_contVO4.getStep_pic()+" | ");
@@ -424,5 +494,15 @@ public class Recipe_contJDBCDAO implements Recipe_contDAO_interface
 //			System.out.print(recipe_contVO4.getStep_cont()+" | ");
 //			System.out.println();
 //		}
+		
+		//getOneCont
+//		Recipe_contVO recipe_contVO6 = dao.getOneCont("R00000001", 2);
+//		System.out.print("| "+recipe_contVO6.getRecipe_no()+" | ");
+//		System.out.print(recipe_contVO6.getStep()+" | ");
+//		System.out.print(recipe_contVO6.getStep_pic()+" | ");
+//		System.out.print(recipe_contVO6.getStep_cont()+" | ");
+		
 	}
+
+	
 }

@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -45,6 +47,8 @@ public class Recipe_contJNDIDAO implements Recipe_contDAO_interface
 			"DELETE FROM recipe_cont where (recipe_no = ?) and (step = ?)";
 	private static final String UPDATE = 
 			"UPDATE recipe_cont set step_cont = ? ,step_pic = ? where (recipe_no = ?) and (step = ?)";
+	private static final String GET_ONE_STEP = 
+			"select recipe_no,step,step_pic,step_cont from recipe_cont where recipe_no = ? and step =?";
 	
 	@Override
 	public void insert(Recipe_contVO recipe_contVO)
@@ -233,11 +237,72 @@ public class Recipe_contJNDIDAO implements Recipe_contDAO_interface
 		}
 	}
 
-	@Override
-	public List<Recipe_contVO> findByPrimaryKey(String recipe_no)
+	public Recipe_contVO getOneCont(String recipe_no, Integer step)
 	{
 		// TODO Auto-generated method stub
-		List<Recipe_contVO> list = new ArrayList<Recipe_contVO>();
+		Recipe_contVO recipe_contVO =null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		try
+		{
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STEP);
+			
+			pstmt.setString(1,recipe_no);
+			pstmt.setInt(2,step);
+			rs = pstmt.executeQuery();
+		
+			while(rs.next())
+			{
+			recipe_contVO = new Recipe_contVO();
+			recipe_contVO.setRecipe_no(rs.getString("recipe_no"));
+			recipe_contVO.setStep(rs.getInt("step"));
+			recipe_contVO.setStep_pic(rs.getBytes("step_pic"));
+			recipe_contVO.setStep_cont(rs.getString("step_cont"));
+			}
+			
+	
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally
+		{
+			if(pstmt !=null)
+			{
+				try
+				{
+					pstmt.close();
+				} catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(con !=null){
+				try
+				{
+					con.close();
+				} catch (SQLException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		
+		return recipe_contVO;
+	}
+	
+	@Override
+	public Set<Recipe_contVO> findByPrimaryKey(String recipe_no)
+	{
+		// TODO Auto-generated method stub
+		Set<Recipe_contVO> set = new LinkedHashSet<Recipe_contVO>();
 		Recipe_contVO recipe_contVO =null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -258,7 +323,7 @@ public class Recipe_contJNDIDAO implements Recipe_contDAO_interface
 				recipe_contVO.setStep(rs.getInt("step"));
 				recipe_contVO.setStep_pic(rs.getBytes("step_pic"));
 				recipe_contVO.setStep_cont(rs.getString("step_cont"));
-				list.add(recipe_contVO);
+				set.add(recipe_contVO);
 			}
 		} catch (SQLException e)
 		{
@@ -288,7 +353,7 @@ public class Recipe_contJNDIDAO implements Recipe_contDAO_interface
 				}
 			}
 		}
-		return list;
+		return set;
 	}
 
 	@Override
