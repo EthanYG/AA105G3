@@ -73,40 +73,10 @@ public class RecipeService
 		return dao.findByPrimaryKey(recipe_no);
 	}
 
-	public List getAll() {
+	public List<RecipeVO> getAll() {
 		
 		List<RecipeVO> list = dao.getAll();
-		Map map = new HashMap();
-		List recipeList = new ArrayList(); 
-		
-		for(RecipeVO recipeVO:list){
-			
-			List food_mater = new ArrayList();
-			
-			String str = recipeVO.getFood_mater();
-			String[] tokens = str.split("-|\\+");
-			
-			List<String> ingredients = new ArrayList<String>();
-			List<String> quantity = new ArrayList<String>();
-			
-			for(int i =0;i<tokens.length-1;i+=2){
-				ingredients.add(tokens[i]);
-			}
-			food_mater.add(ingredients);
-			for(int i =1;i<tokens.length;i+=2){
-				quantity.add(tokens[i]);
-			}
-			food_mater.add(quantity);
-			
-			
-			
-			map.put(recipeVO.getRecipe_no(), food_mater);
-			recipeList.add(list);
-			recipeList.add(map);
-		}
-		
-		
-		return recipeList;
+		return list;
 	}
 	
 	public void WeekViewsToZero(String recipe_no){
