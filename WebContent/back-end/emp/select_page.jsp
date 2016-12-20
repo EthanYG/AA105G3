@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head><title>IBM Emp: Home</title></head>
@@ -12,10 +12,10 @@
 
 <p>This is the Home page for IBM Emp: Home</p>
 
-<h3>��Ƭd��:</h3>
-<%-- ���~���C --%>
+<h3>資料查詢:</h3>
+<%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
-	<font color='red'>�Эץ��H�U���~:
+	<font color='red'>請修正以下錯誤:
 	<ul>
 		<c:forEach var="message" items="${errorMsgs}">
 			<li>${message}</li>
@@ -29,9 +29,9 @@
   
   <li>
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" >
-        <b>��J���u�s�� (�p1001):</b>
+        <b>輸入員工編號 (如1001):</b>
         <input type="text" name="emp_no">
-        <input type="submit" value="�e�X">
+        <input type="submit" value="送出">
         <input type="hidden" name="action" value="getOne_For_Display">
     </FORM>
   </li>
@@ -40,33 +40,33 @@
    
   <li>
      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" >
-       <b>��ܭ��u�s��:</b>
+       <b>選擇員工編號:</b>
        <select size="1" name="emp_no">
          <c:forEach var="empVO" items="${empSvc.all}" > 
           <option value="${empVO.emp_no}">${empVO.emp_no}
          </c:forEach>   
        </select>
-       <input type="submit" value="�e�X">
+       <input type="submit" value="送出">
        <input type="hidden" name="action" value="getOne_For_Display">
     </FORM>
   </li>
   
   <li>
      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/emp/emp.do" >
-       <b>��ܭ��u�m�W:</b>
+       <b>選擇員工姓名:</b>
        <select size="1" name="emp_no">
          <c:forEach var="empVO" items="${empSvc.all}" > 
           <option value="${empVO.emp_no}">${empVO.emp_name}
          </c:forEach>   
        </select>
-       <input type="submit" value="�e�X">
+       <input type="submit" value="送出">
        <input type="hidden" name="action" value="getOne_For_Display">
      </FORM>
   </li>
 </ul>
 
 
-<h3>���u�޲z</h3>
+<h3>員工管理</h3>
 
 <ul>
   <li><a href='addEmp.jsp'>Add</a> a new Emp.</li>
