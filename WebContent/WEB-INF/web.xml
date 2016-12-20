@@ -93,4 +93,25 @@
     <servlet-name>AdvServlet</servlet-name>
     <url-pattern>/adv/adv.do</url-pattern>
   </servlet-mapping>
+  
+  
+	<servlet>
+		<servlet-name>FilmServlet</servlet-name>
+		<servlet-class>com.film.controller.FilmServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FilmServlet</servlet-name>
+		<url-pattern>/front-end/film/film.do</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>Report_caseServlet</servlet-name>
+		<servlet-class>com.report_case.controller.Report_caseServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Report_caseServlet</servlet-name>
+		<url-pattern>/back-end/report_case/report_case.do</url-pattern>
+	</servlet-mapping>
+  
 </web-app>
