@@ -30,14 +30,14 @@ public class Report_caseService {
 		return Report_caseVO;
 	}
 
-	public Report_caseVO updateReport_case(String rep_mem_no,String rep_tar_no,String rep_type,
+	public Report_caseVO updateReport_case(String rep_no,String rep_mem_no,String rep_tar_no,String rep_type,
 				java.sql.Date rep_date,String rep_reason,String rep_chk_con) {
 
 		Report_caseVO Report_caseVO = new Report_caseVO();
 		
 
 		
-//		Report_caseVO.setRep_no(rep_no);
+		Report_caseVO.setRep_no(rep_no);
 		Report_caseVO.setRep_mem_no(rep_mem_no);
 		Report_caseVO.setRep_tar_no(rep_tar_no);
 		Report_caseVO.setRep_type(rep_type);

@@ -359,7 +359,7 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 		MemberJDBCDAO dao = new MemberJDBCDAO();
 		
 		//新增
-		/*MemberVO memVO1 = new MemberVO();
+		MemberVO memVO1 = new MemberVO();
 		memVO1.setMem_name("KITTEN");
 		memVO1.setMem_ac("KITTEN!!!");
 		memVO1.setMem_pw("258");
@@ -370,7 +370,7 @@ public class MemberJDBCDAO implements MemberDAO_interface {
 		memVO1.setMem_own("0");
 		memVO1.setMem_history("HAHA");
 		memVO1.setMem_online("1");
-		dao.insert(memVO1);*/
+		dao.insert(memVO1);
 		
 		//修改
 		/*MemberVO memVO2 = new MemberVO();

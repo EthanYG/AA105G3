@@ -113,5 +113,32 @@
 		<servlet-name>Report_caseServlet</servlet-name>
 		<url-pattern>/back-end/report_case/report_case.do</url-pattern>
 	</servlet-mapping>
-  
+	
+		<servlet>
+		<servlet-name>MessageServlet</servlet-name>
+		<servlet-class>com.message.controller.MessageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MessageServlet</servlet-name>
+		<url-pattern>/front-end/message/message.do</url-pattern>
+	</servlet-mapping>
+	
+  	<servlet>
+		<servlet-name>LiveServlet</servlet-name>
+		<servlet-class>com.live.controller.LiveServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LiveServlet</servlet-name>
+		<url-pattern>/front-end/live/live.do</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>Film_messageServlet</servlet-name>
+		<servlet-class>com.film_message.controller.Film_messageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Film_messageServlet</servlet-name>
+		<url-pattern>/front-end/film_message/film_message.do</url-pattern>
+	</servlet-mapping>
+
 </web-app>

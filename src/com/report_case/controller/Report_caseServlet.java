@@ -131,7 +131,11 @@ public class Report_caseServlet extends HttpServlet {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 		
 				System.out.println("qwe");
-				
+
+				String rep_no = req.getParameter("rep_no").trim();
+				if(rep_no  == "" ){
+					errorMsgs.add("請輸入檢舉項目編號");
+				}
 				String rep_mem_no = req.getParameter("rep_mem_no").trim();
 				if(rep_mem_no  == "" ){
 					errorMsgs.add("請輸入檢舉會員編號");
@@ -180,7 +184,8 @@ public class Report_caseServlet extends HttpServlet {
 				report_caseVO.setRep_reason(rep_reason);
 				report_caseVO.setRep_date(rep_date);
 				report_caseVO.setRep_chk_con(rep_chk_con);
-				
+				report_caseVO.setRep_no(rep_no);
+
 				
 
 				// Send the use back to the form, if there were errors
@@ -194,7 +199,7 @@ public class Report_caseServlet extends HttpServlet {
 				
 				/***************************2.開始修改資料*****************************************/
 				Report_caseService Report_caseSvc = new Report_caseService();
-				report_caseVO = Report_caseSvc.updateReport_case(rep_mem_no,rep_tar_no,rep_type,rep_date,rep_reason,rep_chk_con);
+				report_caseVO = Report_caseSvc.updateReport_case(rep_no,rep_mem_no,rep_tar_no,rep_type,rep_date,rep_reason,rep_chk_con);
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("report_caseVO", report_caseVO); // 資料庫update成功後,正確的的report_caseVO物件,存入req
